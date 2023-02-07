@@ -26,7 +26,8 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text("Hello World")), body: Body());
+    return Scaffold(
+        appBar: AppBar(title: const Text("Hello World")), body: Body());
   }
 }
 
@@ -54,12 +55,12 @@ class _BodyState extends State<Body> {
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person),
+                prefixIcon: const Icon(Icons.person),
                 labelText: "Type your name: ",
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderSide: BorderSide(width: 5, color: Colors.black)),
                 suffixIcon: IconButton(
-                    icon: Icon(Icons.done),
+                    icon: const Icon(Icons.done),
                     splashColor: Colors.blue,
                     tooltip: "Submit",
                     onPressed: click),

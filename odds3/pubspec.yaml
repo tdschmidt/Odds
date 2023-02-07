@@ -31,6 +31,8 @@ dependencies:
   firebase_storage: ^11.0.10
   firebase_crashlytics: ^3.0.11
   firebase_analytics: ^10.1.0
+  firebase_dynamic_links: ^5.0.11
+  google_sign_in: ^5.4.4
 
 dev_dependencies:
   flutter_test:
@@ -49,4 +51,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+  - assets/
 
