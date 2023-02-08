@@ -7,12 +7,12 @@ class Post {
   Post(this.body, this.author);
 
   void likePost() {
-    this.userLiked = !this.userLiked;
+    userLiked = !userLiked;
 
-    if (this.userLiked) {
-      this.likes += 1;
+    if (userLiked) {
+      likes += 1;
     } else {
-      this.likes -= 1;
+      likes -= 1;
     }
   }
 }
