@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'homePage.dart';
 
 class AddFriendsPage extends StatefulWidget {
   @override
