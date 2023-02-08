@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "75354380150",
+    "project_id": "odds3-af9af",
+    "storage_bucket": "odds3-af9af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75354380150:android:8fedb64789e685ae914c57",
+        "android_client_info": {
+          "package_name": "com.example.odds3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75354380150-fn77m7q2rp9leu7usg89aq3422iuvcai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtDPFE-u48GQeXEzmhxTdxJjq_7MqH8qU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75354380150-fn77m7q2rp9leu7usg89aq3422iuvcai.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "75354380150-ebqu0pcf063g7mvkahj1cn2b453g4lm7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.odds3"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
