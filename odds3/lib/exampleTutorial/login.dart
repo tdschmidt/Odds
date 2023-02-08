@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'myHomePage.dart';
+import '../mainPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -39,11 +40,11 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   late String name;
   TextEditingController controller = TextEditingController();
-
+// switch between main page and app by toggling this route
   void click() {
     name = controller.text;
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => MyHomePage(this.name)));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MainPage()));
   }
 
   @override
