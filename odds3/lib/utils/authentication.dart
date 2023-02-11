@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -113,19 +114,23 @@ class Authentication {
     final profilePhoto = user.providerData.first.photoURL;
     final dateJoined = Timestamp.now();
 
+
+    // Create friends, bets, and friendInvites subcollections and set them as blank
+    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('friends').add({});
+    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bets').add({});
+    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('friendInvites').add({});
+
     return users.doc(user.uid).set({
+      "userId": user.uid,
       "fullName": name, // John Doe
       "email": email, // email
       "username": email?.substring(0, email.indexOf('@')),
       "photoURL": profilePhoto,
       "dateJoined": dateJoined,
-      "friends": [],
-      "friendInvites": [],
       "betsWon": 0,
       "betsLost": 0,
       "tokenAmount": 0,
       "lastActive": dateJoined,
-      "bets": [],
     }).catchError((error) => print("Failed to add user: $error"));
   }
 
