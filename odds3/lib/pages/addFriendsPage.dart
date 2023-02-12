@@ -10,6 +10,12 @@ class AddFriendsPage extends StatefulWidget {
   _AddFriendsPageState createState() => _AddFriendsPageState();
 }
 
+enum FriendStatus {
+  ACCEPTED,
+  DECLINED,
+  OPEN
+}
+
 class _AddFriendsPageState extends State<AddFriendsPage> {
   // Instantiating the user for when we have to add friends to the user's subcollection
   User? user = FirebaseAuth.instance.currentUser;
@@ -48,8 +54,31 @@ class _AddFriendsPageState extends State<AddFriendsPage> {
                   // This is the case where a match was found
                   // Here we will have to implement the friend request process
                   print("User found: ${querySnapShot.docs.first.data()}");
+                  var friendRequested = querySnapShot.docs.first.data();
+
+                  // Checking if the user already made that request before
+                  FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(friendRequested['userId'])
+                    .collection("friendInvites")
+                    .where('Inviter', isEqualTo: user?.uid)
+                    .get()
+                    .then((friendDocs) {
+
+                    if (friendDocs.docs.isNotEmpty) {
+                      print("Friend request already exists");
+                    } else {
+                      // Add friend request logic here
+                      FirebaseFirestore.instance.collection('users').doc(friendRequested['userId']).collection('friendInvites').add({
+                      "Inviter": user?.uid,
+                      "Receiver": friendRequested['userId'],
+                      "DateCreated": Timestamp.now(),
+                      "Status": FriendStatus.OPEN.index,
+                    });
+                    print("Added friend");
+                    }
+                  });
                 }
-                // add friend logic here
                 print('Friend name: ${_friendNameController.text}');
               },
               child: Text('Add'),
