@@ -116,6 +116,10 @@ class Authentication {
 
 
     // Create friends, bets, and friendInvites subcollections and set them as blank
+
+    // IMPORTANT: creating subcollections implicitly creates a new empty document for that
+    // subcollection. Therefore, any time we need to count documents (to see how many friends)
+    // someone has, we must do n - 1.
     FirebaseFirestore.instance.collection('users').doc(user.uid).collection('friends').add({});
     FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bets').add({});
     FirebaseFirestore.instance.collection('users').doc(user.uid).collection('friendInvites').add({});
