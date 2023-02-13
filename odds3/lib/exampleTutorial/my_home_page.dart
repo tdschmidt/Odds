@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'post.dart';
 import 'textInputWidget.dart';
-import 'postList.dart';
+import 'post_list.dart';
 
 class MyHomePage extends StatefulWidget {
   final String name;
@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int currentIndex = 0;
 
   void newPost(String text) {
-    this.setState(() {
+    setState(() {
       posts.add(new Post(text, widget.name));
     });
   }

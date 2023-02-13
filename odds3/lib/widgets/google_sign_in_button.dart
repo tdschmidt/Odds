@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:odds3/mainPage.dart';
+import 'package:odds3/main_page.dart';
 import 'package:odds3/utils/authentication.dart';
 import '../screens/user_info_screen.dart';
 
