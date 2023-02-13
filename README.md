@@ -6,3 +6,4 @@ Source Control with Git:
 Jen
 Theo Schmidt
 Rodri
+Spencer
