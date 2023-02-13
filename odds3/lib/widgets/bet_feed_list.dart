@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../classes/betFeedItem.dart';
+import '../classes/bet_feed_item.dart';
 
 class BetFeedList extends StatefulWidget {
   final List<Bet> listItems;

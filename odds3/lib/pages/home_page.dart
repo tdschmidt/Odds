@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:odds3/pages/addFriendsPage.dart';
+import 'package:odds3/pages/add_friends_page.dart';
 import 'package:odds3/widgets/leaderboard.dart';
-import '../widgets/betFeedList.dart';
-import '../widgets/toggleSwitch.dart';
-import '../dummyData.dart';
-import '../widgets/addFriendsButton.dart';
+import '../widgets/bet_feed_list.dart';
+import '../widgets/toggle_switch.dart';
+import '../dummy_data.dart';
+import '../widgets/add_friends_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

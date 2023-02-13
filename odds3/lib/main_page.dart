@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'pages/homePage.dart';
 import 'pages/betPage.dart';
 import 'pages/addFriendsPage.dart';
+import 'pages/me_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage();
@@ -13,15 +14,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
 
-  final screens = [
-    HomePage(),
-    BetPage(),
-    Center(
-        child: Text(
-      'Profile',
-      style: TextStyle(fontSize: 60),
-    ))
-  ];
+  final screens = [HomePage(), BetPage(), MePage()];
 
   @override
   Widget build(BuildContext context) {
