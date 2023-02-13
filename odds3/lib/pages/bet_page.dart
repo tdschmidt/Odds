@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/betFeedList.dart';
+import '../widgets/bet_feed_list.dart';
 import '../classes/bet_feed_item.dart';
 
 class BetPage extends StatefulWidget {

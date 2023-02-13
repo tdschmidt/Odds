@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'pages/homePage.dart';
-import 'pages/betPage.dart';
-import 'pages/addFriendsPage.dart';
+import 'pages/home_page.dart';
+import 'pages/bet_page.dart';
+import 'pages/add_friends_page.dart';
 import 'pages/me_page.dart';
 
 class MainPage extends StatefulWidget {

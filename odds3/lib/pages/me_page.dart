@@ -4,7 +4,7 @@ import '../widgets/me_toggle_bar.dart';
 import '../widgets/profile_headder.dart';
 import '../dummy_data.dart';
 import '../classes/user.dart';
-import '../widgets/betFeedList.dart';
+import '../widgets/bet_feed_list.dart';
 
 class MePage extends StatefulWidget {
   const MePage({super.key});
