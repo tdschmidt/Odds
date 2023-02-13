@@ -1,9 +1,9 @@
 class User {
   String name;
-  int betsWon = 0;
-  int betsLost = 0;
+  int betsWon;
+  int betsLost;
   String username;
-  final int coins = 0;
+  int tokens;
 
-  User(this.name, this.betsWon, this.betsLost, this.username);
+  User(this.name, this.tokens, this.betsWon, this.betsLost, this.username);
 }

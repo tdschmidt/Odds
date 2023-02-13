@@ -1,8 +1,10 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../screens/user_info_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Authentication {
   static Future<FirebaseApp> initializeFirebase({
@@ -58,6 +60,9 @@ class Authentication {
             await auth.signInWithCredential(credential);
 
         user = userCredential.user;
+        if (user != null && await isNewUser(user: user)) {
+          addUser(user: user);
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -98,5 +103,45 @@ class Authentication {
         ),
       );
     }
+  }
+
+  static Future<void> addUser({required User user}) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    // Name, email address, and profile photo URL from gmail
+    final name = user.providerData.first.displayName;
+    final email = user.providerData.first.email;
+    final profilePhoto = user.providerData.first.photoURL;
+    final dateJoined = Timestamp.now();
+
+
+    // Create friends, bets, and friendInvites subcollections and set them as blank
+
+    // IMPORTANT: creating subcollections implicitly creates a new empty document for that
+    // subcollection. Therefore, any time we need to count documents (to see how many friends)
+    // someone has, we must do n - 1.
+    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('friends').add({});
+    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bets').add({});
+    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('friendInvites').add({});
+
+    return users.doc(user.uid).set({
+      "userId": user.uid,
+      "fullName": name, // John Doe
+      "email": email, // email
+      "username": email?.substring(0, email.indexOf('@')),
+      "photoURL": profilePhoto,
+      "dateJoined": dateJoined,
+      "betsWon": 0,
+      "betsLost": 0,
+      "tokenAmount": 0,
+      "lastActive": dateJoined,
+    }).catchError((error) => print("Failed to add user: $error"));
+  }
+
+  static Future<bool> isNewUser({required User user}) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    // Call the user's CollectionReference to add a new user
+    var doc = await users.doc(user.uid).get();
+    return !doc.exists;
   }
 }

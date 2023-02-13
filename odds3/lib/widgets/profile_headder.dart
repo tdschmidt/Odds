@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../classes/user.dart';
-import '';
 
 class UserProfile extends StatelessWidget {
   final User user;
@@ -59,7 +58,7 @@ class UserProfile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  user.coins.toString(),
+                  user.tokens.toString(),
                   style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.bold,
