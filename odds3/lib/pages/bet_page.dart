@@ -10,7 +10,10 @@ class BetPage extends StatefulWidget {
 }
 
 class _BetPageState extends State<BetPage> {
-  List<Bet> bets = [Bet('Amarins', 'Tia', 5, 5, 'she wont stfu', 1)];
+  List<Bet> bets = [
+    Bet('Amarins', 'Tia', 5, 5, 'This screen to be replaced by bet place flow',
+        1, 1, 0)
+  ];
   @override
   Widget build(BuildContext context) {
     return BetFeedList(bets);

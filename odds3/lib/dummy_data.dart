@@ -1,12 +1,12 @@
-
 import 'classes/bet_feed_item.dart';
 import 'classes/user.dart';
 
 List<Bet> bets = [
-  Bet('Amarins', 'Tia', 5, 5, 'she wont go to berlin', 0),
-  Bet('Manko', 'Gary', 10, 1, 'Eagles win superbowl', 1),
-  Bet('Rodri', 'Jen', 5, 4, 'Firebase will crash on us', 0),
-  Bet('Spencer', 'Theo', 10, 1, 'Flutter will give us plenty of problems', 1)
+  Bet('Amarins', 'Tia', 5, 5, 'she wont go to berlin', 0, 0, 0),
+  Bet('Manko', 'Gary', 10, 1, 'Eagles win superbowl', 1, 0, 0),
+  Bet('Rodri', 'Jen', 5, 4, 'Firebase will crash on us', 0, 1, 1),
+  Bet('Spencer', 'Theo', 10, 1, 'Flutter will give us plenty of problems', 1, 1,
+      0)
 ];
 
 List<User> users = [
