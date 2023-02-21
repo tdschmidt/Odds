@@ -29,7 +29,7 @@ class _MePageState extends State<MePage> {
         UserProfile(user),
         MeToggle(
             toggleValue: _toggleValue, updateToggleValue: _updateToggleValue),
-        Expanded(child: MeFeedList(bets, _toggleValue))
+        Expanded(child: MeFeedList(dummy_bets, _toggleValue))
       ],
     );
   }

@@ -17,7 +17,7 @@ class _BetFeedListState extends State<BetFeedList> {
       itemBuilder: (context, index) {
         var bet = widget.listItems[index];
         return Card(
-          color: bet.closed == 1
+          color: bet.status == 1
               ? Color.fromARGB(255, 85, 84, 93)
               : Color.fromARGB(255, 63, 68, 70),
           child: Padding(
@@ -38,7 +38,7 @@ class _BetFeedListState extends State<BetFeedList> {
                 ),
                 Expanded(
                     child: ListTile(
-                  title: bet.closed == 0
+                  title: bet.status == 0
                       ? RichText(
                           text: TextSpan(
                             style: DefaultTextStyle.of(context).style,
@@ -86,7 +86,7 @@ class _BetFeedListState extends State<BetFeedList> {
                 Column(
                   children: <Widget>[
                     Text(
-                      bet.betterAmount.toString(),
+                      bet.bettorAmount.toString(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
