@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
               onChanged: _updateToggleValue, label: _toggleValue),
         ),
         _toggleValue == 0
-            ? Expanded(child: BetFeedList(bets))
+            ? Expanded(child: BetFeedList(dummy_bets))
             : Expanded(child: Leaderboard(users)),
       ],
     );

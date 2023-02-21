@@ -60,7 +60,7 @@ class _BetFeedListState extends State<BetFeedList> {
                 Column(
                   children: <Widget>[
                     Text(
-                      bet.betterAmount.toString(),
+                      bet.bettorAmount.toString(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
