@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:odds3/classes/bet_feed_item.dart';
 
@@ -7,15 +8,23 @@ import '../dummy_data.dart';
 class StateManagement with ChangeNotifier {
   List<Bet> _bets = [];
 
+  User? user = FirebaseAuth.instance.currentUser;
+
   List<Bet> get bets => _bets;
 
-  /*Future<void> fetchBets() async {
+  Future<void> fetchBets() async {
     QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('bets').get();
+        await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user?.uid)
+          .collection('bets')
+          .where('id', isNotEqualTo: '')
+          .get();
     _bets = snapshot.docs.map((doc) => Bet.fromFirestore(doc)).toList();
     notifyListeners();
-  }*/
+  }
 
+  /*
   void fetchBets() {
     _bets = dummy_bets;
     notifyListeners();
@@ -37,10 +46,13 @@ class StateManagement with ChangeNotifier {
     notifyListeners();
   }
 
-  /*Future<void> acceptBet(Bet bet) async {
+  */
+  Future<void> acceptBet(Bet bet) async {
     bet.status = 1;
     await FirebaseFirestore.instance
-        .collection('bet')
+        .collection('users')
+        .doc(user?.uid)
+        .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());
     notifyListeners();
@@ -49,7 +61,9 @@ class StateManagement with ChangeNotifier {
   Future<void> rejectBet(Bet bet, bool completed) async {
     bet.status = 3;
     await FirebaseFirestore.instance
-        .collection('bet')
+        .collection('users')
+        .doc(user?.uid)
+        .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());
     notifyListeners();
@@ -59,9 +73,11 @@ class StateManagement with ChangeNotifier {
     bet.status = 2;
     //bet.winner = uid == bettor;
     await FirebaseFirestore.instance
-        .collection('bet')
+        .collection('users')
+        .doc(user?.uid)
+        .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());
     notifyListeners();
-  }*/
+  }
 }
