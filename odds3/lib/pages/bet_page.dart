@@ -44,31 +44,93 @@ class _BetPageState extends State<BetPage> {
     final state = Provider.of<StateManagement>(context);
 
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(top: 100.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _friendController,
-              decoration: InputDecoration(labelText: 'Friend to bet against'),
-            ),
-            TextField(
-              controller: _yourRiskController,
-              decoration: InputDecoration(labelText: 'Your risk'),
-            ),
-            TextField(
-              controller: _theirRiskController,
-              decoration: InputDecoration(labelText: 'Their risk'),
-            ),
-            TextField(
-              controller: _betTextController,
-              decoration: InputDecoration(labelText: 'Bet text'),
-            ),
-            ElevatedButton(
-              onPressed: () => click(state),
-              child: Text('Submit'),
-            ),
-          ],
+      backgroundColor: Color.fromARGB(255, 52, 51, 51),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Place a Bet',
+                style: TextStyle(
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 24.0),
+              TextFormField(
+                controller: _friendController,
+                decoration: InputDecoration(
+                  labelText: 'Search for a friend to bet against',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              TextFormField(
+                controller: _yourRiskController,
+                decoration: InputDecoration(
+                  labelText: 'Your risk',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              TextFormField(
+                controller: _theirRiskController,
+                decoration: InputDecoration(
+                  labelText: 'Your opponent\'s risk',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 24.0),
+              Container(
+                height: 120.0,
+                child: TextFormField(
+                  controller: _betTextController,
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    labelText: 'What is your wager?',
+                    alignLabelWithHint: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(child: Container()),
+              Container(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => click(state),
+                  child: Text(
+                    'Place Bet',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Colors.blue,
+                    ),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                      EdgeInsets.symmetric(vertical: 16.0),
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
