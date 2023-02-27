@@ -36,7 +36,7 @@ class _MeFeedListState extends State<MeFeedList> {
             children: <Widget>[
               Expanded(
                   child: ListTile(
-                title: Text(bet.bettor + ' bets you'),
+                title: Text(bet.bettor + ' bets ' + bet.receiver),
                 subtitle: Text(bet.betText),
               )),
               Column(

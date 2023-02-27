@@ -44,9 +44,14 @@ class StateManagement with ChangeNotifier {
     bet.winner = concederUid == bet.bettor;
     bet.status = 2;
     notifyListeners();
-  }
-
+  }  
   */
+  
+  void makeBet(Bet bet) {
+    _bets.add(bet);
+    notifyListeners();
+  }
+  
   Future<void> acceptBet(Bet bet) async {
     bet.status = 1;
     await FirebaseFirestore.instance

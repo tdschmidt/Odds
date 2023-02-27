@@ -16,7 +16,13 @@ class _BetFeedListState extends State<BetFeedList> {
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
         var bet = widget.listItems[index];
+        if (bet.status == 0 || bet.status == 4) {
+          return SizedBox.shrink(); // returns an empty widget
+        }
         return Card(
+          color: bet.status == 1
+              ? Color.fromARGB(255, 85, 84, 93)
+              : Color.fromARGB(255, 63, 68, 70),
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Row(
@@ -35,26 +41,49 @@ class _BetFeedListState extends State<BetFeedList> {
                 ),
                 Expanded(
                     child: ListTile(
-                  title: RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: bet.bettor,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                  title: bet.status == 1
+                      ? RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: bet.bettor,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(text: ' bets '),
+                              TextSpan(
+                                text: bet.receiver,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text:
+                                    bet.winner == 1 ? bet.bettor : bet.receiver,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(text: ' won a bet against '),
+                              TextSpan(
+                                text:
+                                    bet.winner == 1 ? bet.receiver : bet.bettor,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        TextSpan(text: ' bets '),
-                        TextSpan(
-                          text: bet.receiver,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   subtitle: Text(bet.betText),
                 )),
                 Column(
