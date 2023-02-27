@@ -45,10 +45,19 @@ class StateManagement with ChangeNotifier {
     bet.status = 2;
     notifyListeners();
   }  
-  */
   
   void makeBet(Bet bet) {
     _bets.add(bet);
+    notifyListeners();
+  }
+  */
+
+  Future<void> makeBet(Bet bet) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('bets')
+        .add(bet.toFirestore());
     notifyListeners();
   }
   

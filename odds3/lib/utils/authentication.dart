@@ -112,7 +112,7 @@ class Authentication {
     final name = user.providerData.first.displayName;
     final email = user.providerData.first.email;
     final profilePhoto = user.providerData.first.photoURL;
-    final dateJoined = Timestamp.now();
+    final dateJoined = Timestamp.now().millisecondsSinceEpoch;
 
 
     // Create friends, bets, and friendInvites subcollections and set them as blank
