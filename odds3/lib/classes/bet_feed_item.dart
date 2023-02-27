@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Bet {
+  // May eventually need to implement receiverId and bettorId if we do not retrieve info by username
   String id;
   String bettor;
   String receiver;
@@ -37,15 +38,16 @@ class Bet {
 
   factory Bet.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data() as Map<String, dynamic>;
+    data.removeWhere((key, value) => value == '' || value == null || data.isEmpty);
     return Bet(
-      id: data['uid'],
-      bettor: data['bettor'],
-      receiver: data['receiver'],
-      bettorAmount: data['bettorAmount'],
-      receiverAmount: data['receiverAmount'],
-      betText: data['betText'],
-      userLiked: data['userLiked'],
-      status: data['status'],
+      id: data['id'] ?? '',
+      bettor: data['bettor'] ?? '',
+      receiver: data['receiver'] ?? '',
+      bettorAmount: data['bettorAmount'] ?? 0,
+      receiverAmount: data['receiverAmount'] ?? 0,
+      betText: data['betText'] ?? '',
+      userLiked: data['userLiked'] ?? false,
+      status: data['status'] ?? 0,
       winner: data['winner'],
     );
   }

@@ -56,7 +56,7 @@ class _MeFeedListState extends State<MeFeedList> {
                           IconButton(
                             icon: Icon(Icons.close, color: Colors.red),
                             onPressed: () {
-                              state.rejectBet(bet);
+                              state.rejectBet(bet, true);
                             },
                           ),
                         ])
@@ -68,7 +68,7 @@ class _MeFeedListState extends State<MeFeedList> {
                             icon: Icon(Icons.close, color: Colors.red),
                             onPressed: () {
                               //have to change this to whoever is signed in
-                              state.concedeBet(bet, bet.bettor);
+                              state.concedeBet(bet);
                             },
                           ),
                         ])
