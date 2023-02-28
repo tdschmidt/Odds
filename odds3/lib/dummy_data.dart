@@ -9,6 +9,7 @@ List<Bet> dummy_bets = [
       bettorAmount: 5,
       receiverAmount: 5,
       status: 1,
+      timestampCreated: 1231231231231,
       betText: 'she wont go to berlin'),
   Bet(
       id: '123',
@@ -17,6 +18,7 @@ List<Bet> dummy_bets = [
       bettorAmount: 10,
       receiverAmount: 1,
       status: 1,
+      timestampCreated: 23462934798234,
       betText: 'Eagles win superbowl'),
   Bet(
       id: '1234',
@@ -25,6 +27,7 @@ List<Bet> dummy_bets = [
       bettorAmount: 5,
       receiverAmount: 4,
       status: 0,
+      timestampCreated: 89547983475043,
       betText: 'Firebase will crash on us'),
   Bet(
       id: '12345',
@@ -33,6 +36,7 @@ List<Bet> dummy_bets = [
       bettorAmount: 10,
       receiverAmount: 1,
       status: 1,
+      timestampCreated: 83749283497023,
       betText: 'Flutter will give us plenty of problems')
 ];
 

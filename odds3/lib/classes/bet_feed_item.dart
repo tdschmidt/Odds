@@ -9,6 +9,7 @@ class Bet {
   int receiverAmount = 0;
   String betText;
   bool userLiked = false;
+  int timestampCreated;
   int status = 0;
   bool? winner;
 
@@ -20,6 +21,7 @@ class Bet {
       required this.receiverAmount,
       required this.betText,
       required this.status,
+      required this.timestampCreated,
       this.userLiked = false,
       this.winner});
 
@@ -46,6 +48,7 @@ class Bet {
       bettorAmount: data['bettorAmount'] ?? 0,
       receiverAmount: data['receiverAmount'] ?? 0,
       betText: data['betText'] ?? '',
+      timestampCreated: data['timestampCreated'] ?? 0,
       userLiked: data['userLiked'] ?? false,
       status: data['status'] ?? 0,
       winner: data['winner'],
@@ -54,11 +57,13 @@ class Bet {
 
   Map<String, dynamic> toFirestore() {
     return {
+      'id': id,
       'bettor': bettor,
       'receiver': receiver,
       'bettorAmount': bettorAmount,
       'receiverAmount': receiverAmount,
       'betText': betText,
+      'timestampCreated': timestampCreated,
       'userLiked': userLiked,
       'status': status,
       'winner': winner,

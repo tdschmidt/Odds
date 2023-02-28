@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:odds3/classes/bet_feed_item.dart';
 import 'package:odds3/classes/state_management.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class BetPage extends StatefulWidget {
   const BetPage({super.key});
@@ -15,19 +19,37 @@ class _BetPageState extends State<BetPage> {
   TextEditingController _yourRiskController = TextEditingController();
   TextEditingController _theirRiskController = TextEditingController();
   TextEditingController _betTextController = TextEditingController();
+  User? user = FirebaseAuth.instance.currentUser;
 
-  void click(StateManagement state) {
+  void click(StateManagement state) async {
     String friend = _friendController.text;
     String yourBet = _yourRiskController.text;
     String theirBet = _theirRiskController.text;
     String betText = _betTextController.text;
+    var querySnapShotUser = await FirebaseFirestore.instance.collection("users").doc(user?.uid).get();
+    var userId = querySnapShotUser.data()?['userId'];
 
+    var querySnapShotFriend = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: friend).get();
+    var friendId = querySnapShotFriend.docs.first.data()['userId'];
+
+    int currentTimestamp = Timestamp.now().millisecondsSinceEpoch;
+
+    // creating the bet ids using sha1
+    String idStringInput = friendId + userId + betText + currentTimestamp.toString();
+    List<int> plaintextBytes = utf8.encode(idStringInput); // Convert the string to a list of bytes
+    Digest sha1BetHash = sha1.convert(plaintextBytes);
+    String betId = sha1BetHash.toString();
+    print(betId);
+
+
+    
     Bet newBet = Bet(
-        id: "temporary",
-        bettor: 'You',
-        receiver: friend,
+        id: betId,
+        bettor: userId,
+        receiver: friendId,
         bettorAmount: int.parse(yourBet),
         receiverAmount: int.parse(theirBet),
+        timestampCreated: currentTimestamp,
         betText: betText,
         status: 0);
 

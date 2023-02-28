@@ -47,6 +47,8 @@ class _AddFriendsPageState extends State<AddFriendsPage> {
                 print("Friend name: $friendName");
                 // This checks whether the username matches a user in our database
                 var querySnapShot = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: friendName).get();
+                
+                var querySnapShotInviter = await FirebaseFirestore.instance.collection("users").doc(user?.uid).get();
                 // This is the case where we get no matches
                 if (querySnapShot.docs.isEmpty) {
                   print("No user found with name $friendName");
@@ -55,7 +57,7 @@ class _AddFriendsPageState extends State<AddFriendsPage> {
                   // Here we will have to implement the friend request process
                   print("User found: ${querySnapShot.docs.first.data()}");
                   var friendRequested = querySnapShot.docs.first.data();
-
+                  var friendInviter = querySnapShotInviter.data();
                   // Checking if the user already made that request before
                   FirebaseFirestore.instance
                     .collection("users")
@@ -68,11 +70,25 @@ class _AddFriendsPageState extends State<AddFriendsPage> {
                     if (friendDocs.docs.isNotEmpty) {
                       print("Friend request already exists");
                     } else {
+                      // get's info on current user
+                      
                       // Add friend request logic here
                       FirebaseFirestore.instance.collection('users').doc(friendRequested['userId']).collection('friendInvites').add({
-                      "Inviter": user?.uid,
+                      "Inviter": friendInviter?['userId'],
+                      "InviterName": friendInviter?['fullName'],
                       "Receiver": friendRequested['userId'],
-                      "DateCreated": Timestamp.now(),
+                      "ReceiverName": friendRequested['fullName'],
+                      "DateCreated": Timestamp.now().millisecondsSinceEpoch,
+                      "Status": FriendStatus.OPEN.index,
+                    });
+                     
+                     // adding the friend request info to both users' data
+                     FirebaseFirestore.instance.collection('users').doc(friendInviter?['userId']).collection('friendInvites').add({
+                      "Inviter": friendInviter?['userId'],
+                      "InviterName": friendInviter?['fullName'],
+                      "Receiver": friendRequested['userId'],
+                      "ReceiverName": friendRequested['fullName'],
+                      "DateCreated": Timestamp.now().millisecondsSinceEpoch,
                       "Status": FriendStatus.OPEN.index,
                     });
                     print("Added friend");
