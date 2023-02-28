@@ -59,6 +59,15 @@ class StateManagement with ChangeNotifier {
         .collection('bets')
         .add(bet.toFirestore());
     notifyListeners();
+
+    var querySnapShot = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: bet.receiver).get();
+    var wagerReceiver = querySnapShot.docs.first.data();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(wagerReceiver['userId'])
+        .collection('bets')
+        .add(bet.toFirestore());
+    notifyListeners();
   }
   
   Future<void> acceptBet(Bet bet) async {
@@ -66,6 +75,15 @@ class StateManagement with ChangeNotifier {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user?.uid)
+        .collection('bets')
+        .doc(bet.id)
+        .update(bet.toFirestore());
+
+    var querySnapShot = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: bet.bettor).get();
+    var wagerReceiver = querySnapShot.docs.first.data();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(wagerReceiver['userId'])
         .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());
@@ -80,15 +98,39 @@ class StateManagement with ChangeNotifier {
         .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());
+    
+    var querySnapShot = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: bet.bettor).get();
+    var wagerReceiver = querySnapShot.docs.first.data();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(wagerReceiver['userId'])
+        .collection('bets')
+        .doc(bet.id)
+        .update(bet.toFirestore());
     notifyListeners();
   }
 
   Future<void> concedeBet(Bet bet) async {
     bet.status = 2;
     //bet.winner = uid == bettor;
+    var querySnapShot = await FirebaseFirestore.instance.collection("users").doc(user?.uid).collection('bets').where('id', isEqualTo: bet.id).get();
+    var betInfo = querySnapShot.docs.first.data();
+
+    // must give the option to concede regardless of whether the user is the bettor or the receivor
+    var bettorSnapShot = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: betInfo["bettor"]).get();
+    var bettorInfo = bettorSnapShot.docs.first.data();
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(user?.uid)
+        .doc(bettorInfo['userId'])
+        .collection('bets')
+        .doc(bet.id)
+        .update(bet.toFirestore());
+
+    var reiceiverSnapShot = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: betInfo["receiver"]).get();
+    var reiceiverInfo = reiceiverSnapShot.docs.first.data();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(reiceiverInfo['userId'])
         .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());

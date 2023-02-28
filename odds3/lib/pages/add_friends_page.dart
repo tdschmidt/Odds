@@ -46,7 +46,7 @@ class _AddFriendsPageState extends State<AddFriendsPage> {
                 var friendName = _friendNameController.text;
                 print("Friend name: $friendName");
                 // This checks whether the username matches a user in our database
-                var querySnapShot = await FirebaseFirestore.instance.collection("users").where('fullName', isEqualTo: friendName).get();
+                var querySnapShot = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: friendName).get();
                 
                 var querySnapShotInviter = await FirebaseFirestore.instance.collection("users").doc(user?.uid).get();
                 // This is the case where we get no matches
