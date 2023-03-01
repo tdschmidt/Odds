@@ -53,8 +53,8 @@ class _BetPageState extends State<BetPage> {
 
     Bet newBet = Bet(
       id: betId,
-      bettor: bettor?['userId'],
-      receiver: receiver['userId'],
+      bettorId: bettor?['userId'],
+      receiverId: receiver['userId'],
       bettorAmount: int.parse(yourBet),
       receiverAmount: int.parse(theirBet),
       timestampCreated: currentTimestamp,

@@ -62,7 +62,7 @@ class StateManagement with ChangeNotifier {
     // update receiver
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(bet.receiver)
+        .doc(bet.receiverId)
         .collection('bets')
         .add(bet.toFirestore());
     notifyListeners();
@@ -81,14 +81,14 @@ class StateManagement with ChangeNotifier {
     // update bettor
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(bet.bettor)
+        .doc(bet.bettorId)
         .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());
     notifyListeners();
   }
 
-  Future<void> rejectBet(Bet bet, bool completed) async {
+  Future<void> rejectBet(Bet bet) async {
     bet.status = 3;
     // update receiver (who is rejecting)
     await FirebaseFirestore.instance
@@ -101,7 +101,7 @@ class StateManagement with ChangeNotifier {
     // update bettor
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(bet.bettor)
+        .doc(bet.bettorId)
         .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());
@@ -111,19 +111,19 @@ class StateManagement with ChangeNotifier {
   Future<void> concedeBet(Bet bet) async {
     bet.status = 2;
     // winner = 0 for better winning, 1 for receiver winning
-    bet.winner = user?.uid == bet.bettor;
+    bet.winner = user?.uid == bet.bettorId;
 
     //updates both the bettor and the receiver's obj
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(bet.bettor)
+        .doc(bet.bettorId)
         .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());
 
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(bet.receiver)
+        .doc(bet.receiverId)
         .collection('bets')
         .doc(bet.id)
         .update(bet.toFirestore());

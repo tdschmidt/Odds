@@ -4,8 +4,8 @@ import 'classes/user.dart';
 List<Bet> dummy_bets = [
   Bet(
       id: '12',
-      bettor: 'Amarins',
-      receiver: 'Tia',
+      bettorId: 'Amarins',
+      receiverId: 'Tia',
       bettorAmount: 5,
       receiverAmount: 5,
       status: 1,
@@ -15,8 +15,8 @@ List<Bet> dummy_bets = [
       receiverName: "Tia"),
   Bet(
       id: '123',
-      bettor: 'Manko',
-      receiver: 'Gary',
+      bettorId: 'Manko',
+      receiverId: 'Gary',
       bettorAmount: 10,
       receiverAmount: 1,
       status: 1,
@@ -26,8 +26,8 @@ List<Bet> dummy_bets = [
       receiverName: "Gary"),
   Bet(
       id: '1234',
-      bettor: 'Rodri',
-      receiver: 'Jen',
+      bettorId: 'Rodri',
+      receiverId: 'Jen',
       bettorAmount: 5,
       receiverAmount: 4,
       status: 0,
@@ -37,8 +37,8 @@ List<Bet> dummy_bets = [
       receiverName: "Jen"),
   Bet(
       id: '12345',
-      bettor: 'Spencer',
-      receiver: 'Theo',
+      bettorId: 'Spencer',
+      receiverId: 'Theo',
       bettorAmount: 10,
       receiverAmount: 1,
       status: 1,

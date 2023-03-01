@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:odds3/classes/state_management.dart';
-import 'package:odds3/dummy_data.dart';
 import 'package:provider/provider.dart';
 import '../classes/bet_feed_item.dart';
 
@@ -33,7 +32,7 @@ class _MeFeedListState extends State<MeFeedList> {
       height: 20,
     );
     if (bet.status == 0) {
-      return user?.uid == bet.receiver
+      return user?.uid == bet.receiverId
           ? Row(children: [
               Text('Accept Bet: '),
               IconButton(
@@ -45,7 +44,7 @@ class _MeFeedListState extends State<MeFeedList> {
               IconButton(
                 icon: Icon(Icons.close, color: Colors.red),
                 onPressed: () {
-                  state.rejectBet(bet, true);
+                  state.rejectBet(bet);
                 },
               ),
             ])
@@ -68,7 +67,7 @@ class _MeFeedListState extends State<MeFeedList> {
     } else if (bet.status == 2) {
       Icon icon;
       Text text;
-      if (user?.uid == bet.receiver) {
+      if (user?.uid == bet.receiverId) {
         text = (bet.winner == true)
             ? Text('You Won ${bet.bettorAmount}',
                 style: TextStyle(color: Colors.green))
@@ -107,7 +106,7 @@ class _MeFeedListState extends State<MeFeedList> {
             children: <Widget>[
               Expanded(
                   child: ListTile(
-                title: user?.uid == bet.bettor
+                title: user?.uid == bet.bettorId
                     ? Text("You bet ${bet.receiverName}")
                     : Text("${bet.bettorName} bets You"),
                 subtitle: Text(bet.betText),

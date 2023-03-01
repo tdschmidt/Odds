@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Bet {
   // May eventually need to implement receiverId and bettorId if we do not retrieve info by username
   String id;
-  String bettor;
-  String receiver;
+  String bettorId;
+  String receiverId;
   int bettorAmount = 0;
   int receiverAmount = 0;
   String betText;
@@ -18,8 +18,8 @@ class Bet {
 
   Bet(
       {required this.id,
-      required this.bettor,
-      required this.receiver,
+      required this.bettorId,
+      required this.receiverId,
       required this.bettorAmount,
       required this.receiverAmount,
       required this.betText,
@@ -39,7 +39,7 @@ class Bet {
   }
 
   void concedeBet(String concederUid) {
-    winner = concederUid == bettor;
+    winner = concederUid == bettorId;
     status = 2;
   }
 
@@ -49,12 +49,12 @@ class Bet {
         (key, value) => value == '' || value == null || data.isEmpty);
     return Bet(
         id: data['id'] ?? '',
-        bettor: data['bettor'] ?? '',
-        receiver: data['receiver'] ?? '',
+        bettorId: data['bettorId'] ?? '',
+        receiverId: data['receiverId'] ?? '',
         bettorAmount: data['bettorAmount'] ?? 0,
         receiverAmount: data['receiverAmount'] ?? 0,
         betText: data['betText'] ?? '',
-        timestampCreated: data['timestampCreated'] ?? 0,
+        timestampCreated: data['timestampCreated'] ?? 8640000000000,
         userLiked: data['userLiked'] ?? false,
         status: data['status'] ?? 0,
         winner: data['winner'],
@@ -65,8 +65,8 @@ class Bet {
   Map<String, dynamic> toFirestore() {
     return {
       'id': id,
-      'bettor': bettor,
-      'receiver': receiver,
+      'bettorId': bettorId,
+      'receiverId': receiverId,
       'bettorAmount': bettorAmount,
       'receiverAmount': receiverAmount,
       'betText': betText,
