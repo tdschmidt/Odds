@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
               create: (context) => BetsProvider()..fetchBets()),
-          ChangeNotifierProvider(
-              create: (context) => CurUserProvider()..fetchCurUser()),
+          ChangeNotifierProvider(create: (context) => CurUserProvider()),
         ],
         child: MaterialApp(
           title: 'Odds',
