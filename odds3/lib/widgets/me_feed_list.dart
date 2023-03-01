@@ -27,6 +27,11 @@ class _MeFeedListState extends State<MeFeedList> {
   }
 
   Widget getBetColumn(StateManagement state, Bet bet) {
+    var coinIcon = Image.network(
+      'https://img.icons8.com/external-vectorslab-flat-vectorslab/512/external-Casino-Token-casino-vectorslab-flat-vectorslab.png',
+      width: 20,
+      height: 20,
+    );
     if (bet.status == 0) {
       return user?.uid == bet.receiver
           ? Row(children: [
@@ -65,23 +70,21 @@ class _MeFeedListState extends State<MeFeedList> {
       Text text;
       if (user?.uid == bet.receiver) {
         text = (bet.winner == true)
-            ? Text('You Won ${bet.bettorAmount}')
-            : Text('You Lost ${bet.receiverAmount}');
-        icon = (bet.winner == true)
-            ? const Icon(Icons.monetization_on_outlined, color: Colors.green)
-            : const Icon(Icons.monetization_on_outlined, color: Colors.red);
+            ? Text('You Won ${bet.bettorAmount}',
+                style: TextStyle(color: Colors.green))
+            : Text('You Lost ${bet.receiverAmount}',
+                style: TextStyle(color: Colors.red));
       } else {
         text = (bet.winner == false)
-            ? Text('You Won ${bet.receiverAmount}')
-            : Text('You Lost ${bet.bettorAmount}');
-        icon = (bet.winner == false)
-            ? const Icon(Icons.monetization_on_outlined, color: Colors.green)
-            : const Icon(Icons.monetization_on_outlined, color: Colors.red);
+            ? Text('You Won ${bet.receiverAmount}',
+                style: TextStyle(color: Colors.green))
+            : Text('You Lost ${bet.bettorAmount}',
+                style: TextStyle(color: Colors.red));
       }
       return Row(children: [
         text,
         IconButton(
-          icon: icon,
+          icon: coinIcon,
           onPressed: () {},
         )
       ]);
