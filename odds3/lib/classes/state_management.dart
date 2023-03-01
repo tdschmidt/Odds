@@ -57,14 +57,16 @@ class StateManagement with ChangeNotifier {
         .collection('users')
         .doc(user?.uid)
         .collection('bets')
-        .add(bet.toFirestore());
+        .doc(bet.id)
+        .set(bet.toFirestore());
 
     // update receiver
     await FirebaseFirestore.instance
         .collection('users')
         .doc(bet.receiverId)
         .collection('bets')
-        .add(bet.toFirestore());
+        .doc(bet.id)
+        .set(bet.toFirestore());
     notifyListeners();
     fetchBets();
   }
