@@ -7,6 +7,8 @@ import 'package:odds3/main_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
+import '../classes/bets_provider.dart';
+
 class Authentication {
   static Future<FirebaseApp> initializeFirebase({
     required BuildContext context,
@@ -38,6 +40,7 @@ class Authentication {
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     final userState = Provider.of<CurUserProvider>(context, listen: false);
+    final betsState = Provider.of<BetsProvider>(context, listen: false);
 
     User? user;
     final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -60,8 +63,10 @@ class Authentication {
 
         user = userCredential.user;
         if (user != null && await isNewUser(user: user)) {
-          addUser(user: user);
+          await addUser(user: user);
         }
+        betsState.fetchBets();
+        betsState.fetchFriendBets();
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -92,10 +97,12 @@ class Authentication {
   static Future<void> signOut({required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final userState = Provider.of<CurUserProvider>(context, listen: false);
+    final betsState = Provider.of<BetsProvider>(context, listen: false);
 
     try {
       await googleSignIn.signOut();
       await userState.auth.signOut();
+      betsState.resetBets();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         Authentication.customSnackBar(

@@ -15,6 +15,11 @@ class BetsProvider with ChangeNotifier {
   List<Bet> _friendBets = [];
   List<Bet> get friendBets => _friendBets;
 
+  void resetBets() {
+    _bets = [];
+    _friendBets = [];
+  }
+
   Future<void> fetchBets() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
