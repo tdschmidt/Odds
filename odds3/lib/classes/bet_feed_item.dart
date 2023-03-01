@@ -13,6 +13,9 @@ class Bet {
   int status = 0;
   bool? winner;
 
+  String bettorName;
+  String receiverName;
+
   Bet(
       {required this.id,
       required this.bettor,
@@ -23,7 +26,9 @@ class Bet {
       required this.status,
       required this.timestampCreated,
       this.userLiked = false,
-      this.winner});
+      this.winner,
+      required this.bettorName,
+      required this.receiverName});
 
   void acceptBet() {
     status = 1;
@@ -40,19 +45,21 @@ class Bet {
 
   factory Bet.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data() as Map<String, dynamic>;
-    data.removeWhere((key, value) => value == '' || value == null || data.isEmpty);
+    data.removeWhere(
+        (key, value) => value == '' || value == null || data.isEmpty);
     return Bet(
-      id: data['id'] ?? '',
-      bettor: data['bettor'] ?? '',
-      receiver: data['receiver'] ?? '',
-      bettorAmount: data['bettorAmount'] ?? 0,
-      receiverAmount: data['receiverAmount'] ?? 0,
-      betText: data['betText'] ?? '',
-      timestampCreated: data['timestampCreated'] ?? 0,
-      userLiked: data['userLiked'] ?? false,
-      status: data['status'] ?? 0,
-      winner: data['winner'],
-    );
+        id: data['id'] ?? '',
+        bettor: data['bettor'] ?? '',
+        receiver: data['receiver'] ?? '',
+        bettorAmount: data['bettorAmount'] ?? 0,
+        receiverAmount: data['receiverAmount'] ?? 0,
+        betText: data['betText'] ?? '',
+        timestampCreated: data['timestampCreated'] ?? 0,
+        userLiked: data['userLiked'] ?? false,
+        status: data['status'] ?? 0,
+        winner: data['winner'],
+        bettorName: data['bettorName'] ?? '',
+        receiverName: data['receiverName'] ?? '');
   }
 
   Map<String, dynamic> toFirestore() {
@@ -67,6 +74,8 @@ class Bet {
       'userLiked': userLiked,
       'status': status,
       'winner': winner,
+      'bettorName': bettorName,
+      'receiverName': receiverName
     };
   }
 }

@@ -26,32 +26,43 @@ class _BetPageState extends State<BetPage> {
     String yourBet = _yourRiskController.text;
     String theirBet = _theirRiskController.text;
     String betText = _betTextController.text;
-    var querySnapShotUser = await FirebaseFirestore.instance.collection("users").doc(user?.uid).get();
-    var userId = querySnapShotUser.data()?['userId'];
+    var querySnapShotUser = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user?.uid)
+        .get();
+    var bettor = querySnapShotUser.data();
 
-    var querySnapShotFriend = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: friend).get();
-    var friendId = querySnapShotFriend.docs.first.data()['userId'];
+    var querySnapShotFriend = await FirebaseFirestore.instance
+        .collection("users")
+        .where('username', isEqualTo: friend)
+        .get();
+    var receiver = querySnapShotFriend.docs.first.data();
 
     int currentTimestamp = Timestamp.now().millisecondsSinceEpoch;
 
     // creating the bet ids using sha1
-    String idStringInput = friendId + userId + betText + currentTimestamp.toString();
-    List<int> plaintextBytes = utf8.encode(idStringInput); // Convert the string to a list of bytes
+    String idStringInput = receiver['userId'] +
+        bettor?['userId'] +
+        betText +
+        currentTimestamp.toString();
+    List<int> plaintextBytes =
+        utf8.encode(idStringInput); // Convert the string to a list of bytes
     Digest sha1BetHash = sha1.convert(plaintextBytes);
     String betId = sha1BetHash.toString();
     print(betId);
 
-
-    
     Bet newBet = Bet(
-        id: betId,
-        bettor: userId,
-        receiver: friendId,
-        bettorAmount: int.parse(yourBet),
-        receiverAmount: int.parse(theirBet),
-        timestampCreated: currentTimestamp,
-        betText: betText,
-        status: 0);
+      id: betId,
+      bettor: bettor?['userId'],
+      receiver: receiver['userId'],
+      bettorAmount: int.parse(yourBet),
+      receiverAmount: int.parse(theirBet),
+      timestampCreated: currentTimestamp,
+      betText: betText,
+      status: 0,
+      bettorName: bettor?['username'],
+      receiverName: receiver['username'],
+    );
 
     state.makeBet(newBet);
 
