@@ -50,7 +50,9 @@ class _MeFeedListState extends State<MeFeedList> {
             ])
           : const Text(
               "You Proposed",
-              style: TextStyle(color: Colors.blue),
+              style: TextStyle(
+                  color: Color.fromARGB(
+                      255, 184, 74, 43)), //Should be replaced with theme color
             );
     } else if (bet.status == 1) {
       //both should have conceding option
@@ -101,25 +103,41 @@ class _MeFeedListState extends State<MeFeedList> {
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
         var bet = widget.listItems[index];
-        return Card(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                  child: ListTile(
-                title: user?.uid == bet.bettorId
-                    ? Text("You bet ${bet.receiverName}")
-                    : Text("${bet.bettorName} bets You"),
-                subtitle: Text(bet.betText),
-              )),
-              Column(
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Card(
+            color: Theme.of(context).colorScheme.secondary,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(bet.bettorAmount.toString()),
-                  Text("to win"),
-                  Text(bet.receiverAmount.toString()),
-                  getBetColumn(betsState, bet),
+                  Expanded(
+                    child: ListTile(
+                      title: user?.uid == bet.bettorId
+                          ? Text("You bet ${bet.receiverName}")
+                          : Text("${bet.bettorName} bets You"),
+                      subtitle: Padding(
+                        padding: EdgeInsets.only(
+                            top: 8.0), // Add top padding to the subtitle
+                        child: Text(bet.betText),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(height: 16.0),
+                      Text(bet.bettorAmount.toString()),
+                      Text("to win"),
+                      Text(bet.receiverAmount.toString()),
+                      SizedBox(height: 24.0),
+                      getBetColumn(betsState, bet),
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
         );
       },

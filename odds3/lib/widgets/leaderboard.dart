@@ -16,7 +16,8 @@ class _LeaderboardState extends State<Leaderboard> {
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
         return Card(
-          elevation: 4,
+          elevation: 1,
+          color: Color.fromARGB(255, 255, 251, 240),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

@@ -11,6 +11,7 @@ class AddFriendsButton extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(top: 40, right: 10),
         child: FloatingActionButton(
+          backgroundColor: Theme.of(context).colorScheme.primary,
           mini: true,
           onPressed: () {
             onPressed();

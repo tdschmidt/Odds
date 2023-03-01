@@ -10,11 +10,7 @@ class AddFriendsPage extends StatefulWidget {
   _AddFriendsPageState createState() => _AddFriendsPageState();
 }
 
-enum FriendStatus {
-  ACCEPTED,
-  DECLINED,
-  OPEN
-}
+enum FriendStatus { ACCEPTED, DECLINED, OPEN }
 
 class _AddFriendsPageState extends State<AddFriendsPage> {
   // Instantiating the user for when we have to add friends to the user's subcollection
@@ -24,19 +20,25 @@ class _AddFriendsPageState extends State<AddFriendsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Text('Add a Friend'),
+      ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 100),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                }),
             TextField(
               controller: _friendNameController,
               decoration: InputDecoration(
-                hintText: 'Enter friend name',
+                labelText: 'Enter friend name',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16.0),
@@ -46,9 +48,15 @@ class _AddFriendsPageState extends State<AddFriendsPage> {
                 var friendName = _friendNameController.text;
                 print("Friend name: $friendName");
                 // This checks whether the username matches a user in our database
-                var querySnapShot = await FirebaseFirestore.instance.collection("users").where('username', isEqualTo: friendName).get();
-                
-                var querySnapShotInviter = await FirebaseFirestore.instance.collection("users").doc(user?.uid).get();
+                var querySnapShot = await FirebaseFirestore.instance
+                    .collection("users")
+                    .where('username', isEqualTo: friendName)
+                    .get();
+
+                var querySnapShotInviter = await FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(user?.uid)
+                    .get();
                 // This is the case where we get no matches
                 if (querySnapShot.docs.isEmpty) {
                   print("No user found with name $friendName");
@@ -60,44 +68,66 @@ class _AddFriendsPageState extends State<AddFriendsPage> {
                   var friendInviter = querySnapShotInviter.data();
                   // Checking if the user already made that request before
                   FirebaseFirestore.instance
-                    .collection("users")
-                    .doc(friendRequested['userId'])
-                    .collection("friendInvites")
-                    .where('Inviter', isEqualTo: user?.uid)
-                    .get()
-                    .then((friendDocs) {
-
+                      .collection("users")
+                      .doc(friendRequested['userId'])
+                      .collection("friendInvites")
+                      .where('Inviter', isEqualTo: user?.uid)
+                      .get()
+                      .then((friendDocs) {
                     if (friendDocs.docs.isNotEmpty) {
                       print("Friend request already exists");
                     } else {
                       // get's info on current user
-                      
+
                       // Add friend request logic here
-                      FirebaseFirestore.instance.collection('users').doc(friendRequested['userId']).collection('friendInvites').add({
-                      "Inviter": friendInviter?['userId'],
-                      "InviterName": friendInviter?['fullName'],
-                      "Receiver": friendRequested['userId'],
-                      "ReceiverName": friendRequested['fullName'],
-                      "DateCreated": Timestamp.now().millisecondsSinceEpoch,
-                      "Status": FriendStatus.OPEN.index,
-                    });
-                     
-                     // adding the friend request info to both users' data
-                     FirebaseFirestore.instance.collection('users').doc(friendInviter?['userId']).collection('friendInvites').add({
-                      "Inviter": friendInviter?['userId'],
-                      "InviterName": friendInviter?['fullName'],
-                      "Receiver": friendRequested['userId'],
-                      "ReceiverName": friendRequested['fullName'],
-                      "DateCreated": Timestamp.now().millisecondsSinceEpoch,
-                      "Status": FriendStatus.OPEN.index,
-                    });
-                    print("Added friend");
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(friendRequested['userId'])
+                          .collection('friendInvites')
+                          .add({
+                        "Inviter": friendInviter?['userId'],
+                        "InviterName": friendInviter?['fullName'],
+                        "Receiver": friendRequested['userId'],
+                        "ReceiverName": friendRequested['fullName'],
+                        "DateCreated": Timestamp.now().millisecondsSinceEpoch,
+                        "Status": FriendStatus.OPEN.index,
+                      });
+
+                      // adding the friend request info to both users' data
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(friendInviter?['userId'])
+                          .collection('friendInvites')
+                          .add({
+                        "Inviter": friendInviter?['userId'],
+                        "InviterName": friendInviter?['fullName'],
+                        "Receiver": friendRequested['userId'],
+                        "ReceiverName": friendRequested['fullName'],
+                        "DateCreated": Timestamp.now().millisecondsSinceEpoch,
+                        "Status": FriendStatus.OPEN.index,
+                      });
+                      print("Added friend");
                     }
                   });
                 }
                 print('Friend name: ${_friendNameController.text}');
               },
-              child: Text('Add'),
+              child: Text(
+                'Add Friend',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(vertical: 16.0),
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

@@ -13,14 +13,22 @@ class MeToggle extends StatelessWidget {
       minWidth: 120.0,
       minHeight: 30.0,
       cornerRadius: 10.0,
-      activeBgColors: [
+      /*activeBgColors: [
         [Colors.blue[100]!],
         [Colors.blue[100]!],
         [Colors.blue[100]!]
       ],
       activeFgColor: Colors.white,
       inactiveBgColor: Colors.grey,
-      inactiveFgColor: Colors.white,
+      inactiveFgColor: Colors.white,*/
+      activeBgColors: [
+        [Theme.of(context).colorScheme.primary],
+        [Theme.of(context).colorScheme.primary],
+        [Theme.of(context).colorScheme.primary]
+      ],
+      activeFgColor: Theme.of(context).colorScheme.onPrimary,
+      inactiveBgColor: Color.fromARGB(255, 255, 251, 240),
+      inactiveFgColor: Theme.of(context).colorScheme.primary,
       initialLabelIndex: toggleValue,
       totalSwitches: 3,
       labels: const ['All', 'Pending', 'Resolved'],
