@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../classes/bet_feed_item.dart';
-import '../classes/state_management.dart';
+import '../classes/bets_provider.dart';
 
 class BetFeedList extends StatefulWidget {
-  final List<Bet> listItems;
+  List<Bet> listItems;
   BetFeedList(this.listItems);
 
   @override
@@ -12,16 +12,25 @@ class BetFeedList extends StatefulWidget {
 }
 
 class _BetFeedListState extends State<BetFeedList> {
+  void filterList(List<Bet> bets) {
+    widget.listItems = bets
+        .where(
+            (item) => item.status == 0 || item.status == 1 || item.status == 2)
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<StateManagement>(context);
+    final state = Provider.of<BetsProvider>(context);
+    filterList(state.bets);
+
     return ListView.builder(
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
         var bet = widget.listItems[index];
-        if (bet.status == 0 || bet.status == 4) {
-          return SizedBox.shrink(); // returns an empty widget
-        }
+        // if (bet.status == 0 || bet.status == 4) {
+        //   return SizedBox.shrink(); // returns an empty widget
+        // }
         return Card(
           color: bet.status == 1
               ? Color.fromARGB(255, 255, 251, 240)

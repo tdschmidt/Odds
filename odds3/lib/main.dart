@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:odds3/classes/cur_user_provider.dart';
 import 'package:provider/provider.dart';
-import 'classes/state_management.dart';
+import 'classes/bets_provider.dart';
+import 'main_page.dart';
 import 'screens/sign_in_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -21,7 +23,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-              create: (context) => StateManagement()..fetchBets()),
+              create: (context) => BetsProvider()..fetchBets()),
+          ChangeNotifierProvider(create: (context) => CurUserProvider()),
         ],
         child: MaterialApp(
           title: 'Odds',
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
                   seedColor: Color.fromARGB(255, 251, 230, 184),
                   primary: Color.fromARGB(255, 184, 74, 43),
                   secondary: Color.fromARGB(255, 255, 251, 240))),
-          home: SignInScreen(),
+          home: CurUserProvider().isAuthenticated ? MainPage() : SignInScreen(),
         ));
   }
 }

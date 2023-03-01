@@ -48,12 +48,54 @@ List<Bet> dummy_bets = [
       receiverName: "Theo")
 ];
 
-List<User> users = [
-  User("Spencer", 20, 10, 2, '@spaul'),
-  User("Jen", 14, 9, 2, "@jen"),
-  User("Theo", 12, 7, 2, "@bigTay"),
-  User("Rodri", 12, 6, 1, "@Rj"),
-  User("Ethan", 10, 5, 3, "@EB"),
-  User("Jordan", 4, 2, 2, "@JT"),
-  User("Cat", 3, 1, 3, "@cat")
+List<CurUser> users = [
+  CurUser(
+      fullName: "Spencer",
+      tokens: 20,
+      betsWon: 10,
+      betsLost: 2,
+      username: '@spaul',
+      uid: '789'),
+  CurUser(
+      fullName: "Jen",
+      tokens: 14,
+      betsWon: 9,
+      betsLost: 2,
+      username: "@jen",
+      uid: '678'),
+  CurUser(
+      fullName: "Theo",
+      tokens: 12,
+      betsWon: 7,
+      betsLost: 2,
+      username: "@bigTay",
+      uid: '567'),
+  CurUser(
+      fullName: "Rodri",
+      tokens: 12,
+      betsWon: 6,
+      betsLost: 1,
+      username: "@Rj",
+      uid: '456'),
+  CurUser(
+      fullName: "Ethan",
+      tokens: 10,
+      betsWon: 5,
+      betsLost: 3,
+      username: "@EB",
+      uid: '345'),
+  CurUser(
+      fullName: "Jordan",
+      tokens: 4,
+      betsWon: 2,
+      betsLost: 2,
+      username: "@JT",
+      uid: '234'),
+  CurUser(
+      fullName: "Cat",
+      tokens: 3,
+      betsWon: 1,
+      betsLost: 3,
+      username: "@cat",
+      uid: '123')
 ];

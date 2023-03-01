@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:odds3/widgets/me_feed_list.dart';
-import 'package:odds3/classes/state_management.dart';
 import 'package:provider/provider.dart';
+import '../classes/bets_provider.dart';
 import '../widgets/me_toggle_bar.dart';
 import '../widgets/profile_headder.dart';
-import '../dummy_data.dart';
-import '../classes/user.dart';
-import '../widgets/bet_feed_list.dart';
 
 class MePage extends StatefulWidget {
   const MePage({super.key});
@@ -17,7 +14,6 @@ class MePage extends StatefulWidget {
 
 class _MePageState extends State<MePage> {
   int _toggleValue = 0;
-  final User user = users[0];
   void _updateToggleValue(int index) {
     setState(() {
       _toggleValue = index;
@@ -26,13 +22,14 @@ class _MePageState extends State<MePage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<StateManagement>(context);
+    final betsState = Provider.of<BetsProvider>(context);
     return Column(
       children: [
-        UserProfile(user),
+        UserProfile(),
         MeToggle(
             toggleValue: _toggleValue, updateToggleValue: _updateToggleValue),
-        Expanded(child: Consumer<StateManagement>(
+        Expanded(
+          child: Consumer<BetsProvider>(
             builder: (context, state, _) {
               return MeFeedList(state.bets, _toggleValue);
             },

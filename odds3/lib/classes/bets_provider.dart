@@ -2,15 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:odds3/classes/bet_feed_item.dart';
+import 'package:odds3/classes/cur_user_provider.dart';
+import 'package:odds3/classes/user.dart';
+import 'package:provider/provider.dart';
 
-import '../dummy_data.dart';
-
-class StateManagement with ChangeNotifier {
-  List<Bet> _bets = [];
-
+class BetsProvider with ChangeNotifier {
   User? user = FirebaseAuth.instance.currentUser;
 
+  List<Bet> _bets = [];
   List<Bet> get bets => _bets;
+
+  List<Bet> _friendBets = [];
+  List<Bet> get friendBets => _friendBets;
 
   Future<void> fetchBets() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -20,6 +23,26 @@ class StateManagement with ChangeNotifier {
         .where('id', isNotEqualTo: '')
         .get();
     _bets = snapshot.docs.map((doc) => Bet.fromFirestore(doc)).toList();
+    notifyListeners();
+  }
+
+  Future<void> fetchFriendBets() async {
+    List<Bet> all_bets = [];
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('users').get();
+
+    final List<QueryDocumentSnapshot> users = querySnapshot.docs;
+
+    for (final QueryDocumentSnapshot user in users) {
+      QuerySnapshot userBets = await user.reference.collection('bets').get();
+      List<Bet> cur_bets =
+          userBets.docs.map((doc) => Bet.fromFirestore(doc)).toList();
+
+      all_bets.addAll(cur_bets);
+    }
+
+    _friendBets = all_bets;
+
     notifyListeners();
   }
 
