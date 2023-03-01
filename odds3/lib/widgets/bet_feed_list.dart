@@ -24,8 +24,8 @@ class _BetFeedListState extends State<BetFeedList> {
         }
         return Card(
           color: bet.status == 1
-              ? Color.fromARGB(255, 85, 84, 93)
-              : Color.fromARGB(255, 63, 68, 70),
+              ? Color.fromARGB(255, 255, 251, 240)
+              : Color.fromARGB(255, 255, 252, 242), //change to an accent color
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Row(

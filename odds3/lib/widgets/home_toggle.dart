@@ -14,8 +14,8 @@ class HomeToggle extends StatelessWidget {
       minHeight: 30.0,
       cornerRadius: 10.0,
       activeBgColors: [
-        [Colors.blue[100]!],
-        [Colors.blue[100]!]
+        [Theme.of(context).colorScheme.primary],
+        [Theme.of(context).colorScheme.primary]
       ],
       activeFgColor: Colors.white,
       inactiveBgColor: Colors.grey,

@@ -18,16 +18,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Color.fromARGB(255, 27, 135, 223),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: LoginPage(),
-    );
-=======
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
@@ -37,11 +27,14 @@ class MyApp extends StatelessWidget {
           title: 'Odds',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.indigo,
-            brightness: Brightness.dark,
-          ),
+              //primarySwatch: Colors.indigo,
+              brightness: Brightness.light,
+              colorScheme: ColorScheme.fromSeed(
+                  //colors should come from this in future but for now I have hard coded colors
+                  seedColor: Color.fromARGB(255, 251, 230, 184),
+                  primary: Color.fromARGB(255, 184, 74, 43),
+                  secondary: Color.fromARGB(255, 255, 251, 240))),
           home: SignInScreen(),
         ));
->>>>>>> 86faf0b125ee293cc93d801c5ba6a4647b60154e
   }
 }

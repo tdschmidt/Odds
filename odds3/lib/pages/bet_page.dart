@@ -77,7 +77,6 @@ class _BetPageState extends State<BetPage> {
     final state = Provider.of<StateManagement>(context);
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 52, 51, 51),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.0),
@@ -148,9 +147,6 @@ class _BetPageState extends State<BetPage> {
                     ),
                   ),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      Colors.blue,
-                    ),
                     padding: MaterialStateProperty.all<EdgeInsets>(
                       EdgeInsets.symmetric(vertical: 16.0),
                     ),
