@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:odds3/classes/state_management.dart';
+import 'package:odds3/classes/bets_provider.dart';
 import 'package:provider/provider.dart';
 import '../classes/bet_feed_item.dart';
 
@@ -25,7 +25,7 @@ class _MeFeedListState extends State<MeFeedList> {
     }
   }
 
-  Widget getBetColumn(StateManagement state, Bet bet) {
+  Widget getBetColumn(BetsProvider state, Bet bet) {
     var coinIcon = Image.network(
       'https://img.icons8.com/external-vectorslab-flat-vectorslab/512/external-Casino-Token-casino-vectorslab-flat-vectorslab.png',
       width: 20,
@@ -94,8 +94,8 @@ class _MeFeedListState extends State<MeFeedList> {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<StateManagement>(context);
-    filterList(state.bets);
+    final betsState = Provider.of<BetsProvider>(context);
+    filterList(betsState.bets);
 
     return ListView.builder(
       itemCount: widget.listItems.length,
@@ -116,7 +116,7 @@ class _MeFeedListState extends State<MeFeedList> {
                   Text(bet.bettorAmount.toString()),
                   Text("to win"),
                   Text(bet.receiverAmount.toString()),
-                  getBetColumn(state, bet),
+                  getBetColumn(betsState, bet),
                 ],
               ),
             ],

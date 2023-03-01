@@ -1,10 +1,11 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../screens/user_info_screen.dart';
+import 'package:odds3/classes/cur_user_provider.dart';
+import 'package:odds3/main_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class Authentication {
   static Future<FirebaseApp> initializeFirebase({
@@ -17,9 +18,7 @@ class Authentication {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => UserInfoScreen(
-            user: user,
-          ),
+          builder: (context) => MainPage(),
         ),
       );
     }
@@ -38,9 +37,9 @@ class Authentication {
   }
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
+    final userState = Provider.of<CurUserProvider>(context, listen: false);
 
+    User? user;
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     final GoogleSignInAccount? googleSignInAccount =
@@ -57,7 +56,7 @@ class Authentication {
 
       try {
         final UserCredential userCredential =
-            await auth.signInWithCredential(credential);
+            await userState.auth.signInWithCredential(credential);
 
         user = userCredential.user;
         if (user != null && await isNewUser(user: user)) {
@@ -92,10 +91,11 @@ class Authentication {
 
   static Future<void> signOut({required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
+    final userState = Provider.of<CurUserProvider>(context, listen: false);
 
     try {
       await googleSignIn.signOut();
-      await FirebaseAuth.instance.signOut();
+      await userState.auth.signOut();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         Authentication.customSnackBar(
@@ -114,15 +114,26 @@ class Authentication {
     final profilePhoto = user.providerData.first.photoURL;
     final dateJoined = Timestamp.now().millisecondsSinceEpoch;
 
-
     // Create friends, bets, and friendInvites subcollections and set them as blank
 
     // IMPORTANT: creating subcollections implicitly creates a new empty document for that
     // subcollection. Therefore, any time we need to count documents (to see how many friends)
     // someone has, we must do n - 1.
-    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('friends').add({});
-    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bets').add({});
-    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('friendInvites').add({});
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('friends')
+        .add({});
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('bets')
+        .add({});
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('friendInvites')
+        .add({});
 
     return users.doc(user.uid).set({
       "userId": user.uid,

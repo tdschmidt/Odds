@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../classes/user.dart';
 
 class Leaderboard extends StatefulWidget {
-  final List<User> listItems;
+  final List<CurUser> listItems;
   Leaderboard(this.listItems);
 
   @override
@@ -40,7 +40,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 SizedBox(width: 16),
                 Expanded(
                   child: Text(
-                    widget.listItems[index].name,
+                    widget.listItems[index].fullName,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
