@@ -22,7 +22,6 @@ class _BetFeedListState extends State<BetFeedList> {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<BetsProvider>(context);
-    filterList(state.bets);
 
     return ListView.builder(
       itemCount: widget.listItems.length,
