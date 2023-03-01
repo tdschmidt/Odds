@@ -97,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
+  crypto:
+    dependency: "direct main"
+    description:
+      name: crypto
+      sha256: aa274aa7774f8964e4f4f38cc994db7b6158dd36e9187aaceaddc994b35c6c67
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -201,6 +209,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.11"
+  firebase_dynamic_links:
+    dependency: "direct main"
+    description:
+      name: firebase_dynamic_links
+      sha256: "00a80947fce912f44d30c4fda0a271df3f3fbb7caca4fe15e6ae9ad3f0e5b87f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.11"
+  firebase_dynamic_links_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_dynamic_links_platform_interface
+      sha256: "20e3c50e1272d380bfcaa459e01683d18977673716d165f399065604b5ffd458"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.3+26"
   firebase_storage:
     dependency: "direct main"
     description:
@@ -248,6 +272,46 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  google_sign_in:
+    dependency: "direct main"
+    description:
+      name: google_sign_in
+      sha256: "821f354c053d51a2d417b02d42532a19a6ea8057d2f9ebb8863c07d81c98aaf9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.4.4"
+  google_sign_in_android:
+    dependency: transitive
+    description:
+      name: google_sign_in_android
+      sha256: "197228076289e506d281328c6846b5986d929d316fc1d2c92a88bb13784faccc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.5"
+  google_sign_in_ios:
+    dependency: transitive
+    description:
+      name: google_sign_in_ios
+      sha256: "1116aff5e87f89837b052a81abe6259be7c4dd418275786864d27b74cb2a4e70"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.5.1"
+  google_sign_in_platform_interface:
+    dependency: transitive
+    description:
+      name: google_sign_in_platform_interface
+      sha256: "61306213c76bb8170c3aa20017df296c0131c24d7f6c0cc7e2eeaeac34c9f457"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
+  google_sign_in_web:
+    dependency: transitive
+    description:
+      name: google_sign_in_web
+      sha256: "75cc41ebc53b1756320ee14d9c3018ad3e6cea298147dbcd86e9d0c8d6720b40"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.2+1"
   http:
     dependency: transitive
     description:
@@ -312,6 +376,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -328,6 +400,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.5"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -381,6 +469,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  toggle_switch:
+    dependency: "direct main"
+    description:
+      name: toggle_switch
+      sha256: "82c778c4bfe93af154a41e346ccd1d5b0cb6a50f8f187941412edd0a9bbf51ee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:
@@ -399,4 +495,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=2.19.1 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=3.0.0"

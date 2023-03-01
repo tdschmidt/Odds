@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:provider/provider.dart';
+import 'classes/state_management.dart';
+import 'screens/sign_in_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -14,9 +16,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -25,5 +27,21 @@ class MyApp extends StatelessWidget {
       ),
       home: LoginPage(),
     );
+=======
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+              create: (context) => StateManagement()..fetchBets()),
+        ],
+        child: MaterialApp(
+          title: 'Odds',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.indigo,
+            brightness: Brightness.dark,
+          ),
+          home: SignInScreen(),
+        ));
+>>>>>>> 86faf0b125ee293cc93d801c5ba6a4647b60154e
   }
 }
