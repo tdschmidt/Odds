@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../classes/bet_feed_item.dart';
-import '../classes/state_management.dart';
+import '../classes/bets_provider.dart';
 
 class BetFeedList extends StatefulWidget {
   final List<Bet> listItems;
@@ -14,7 +14,7 @@ class BetFeedList extends StatefulWidget {
 class _BetFeedListState extends State<BetFeedList> {
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<StateManagement>(context);
+    final state = Provider.of<BetsProvider>(context);
     return ListView.builder(
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {

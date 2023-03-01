@@ -1,15 +1,16 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:odds3/classes/bet_feed_item.dart';
+import 'package:odds3/classes/cur_user_provider.dart';
+import 'package:odds3/classes/user.dart';
+import 'package:provider/provider.dart';
 
-import '../dummy_data.dart';
-
-class StateManagement with ChangeNotifier {
-  List<Bet> _bets = [];
-
+class BetsProvider with ChangeNotifier {
   User? user = FirebaseAuth.instance.currentUser;
 
+  List<Bet> _bets = [];
   List<Bet> get bets => _bets;
 
   Future<void> fetchBets() async {

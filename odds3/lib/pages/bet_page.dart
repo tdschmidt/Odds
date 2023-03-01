@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:odds3/classes/bet_feed_item.dart';
-import 'package:odds3/classes/state_management.dart';
+import 'package:odds3/classes/bets_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +21,7 @@ class _BetPageState extends State<BetPage> {
   TextEditingController _betTextController = TextEditingController();
   User? user = FirebaseAuth.instance.currentUser;
 
-  void click(StateManagement state) async {
+  void click(BetsProvider state) async {
     String friend = _friendController.text;
     String yourBet = _yourRiskController.text;
     String theirBet = _theirRiskController.text;
@@ -74,7 +74,7 @@ class _BetPageState extends State<BetPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<StateManagement>(context);
+    final state = Provider.of<BetsProvider>(context);
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 52, 51, 51),
