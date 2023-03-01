@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../classes/bet_feed_item.dart';
+import '../classes/state_management.dart';
 
 class BetFeedList extends StatefulWidget {
   final List<Bet> listItems;
@@ -12,6 +14,7 @@ class BetFeedList extends StatefulWidget {
 class _BetFeedListState extends State<BetFeedList> {
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<StateManagement>(context);
     return ListView.builder(
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
@@ -47,14 +50,14 @@ class _BetFeedListState extends State<BetFeedList> {
                             style: DefaultTextStyle.of(context).style,
                             children: <TextSpan>[
                               TextSpan(
-                                text: bet.bettor,
+                                text: bet.bettorName,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               TextSpan(text: ' bets '),
                               TextSpan(
-                                text: bet.receiver,
+                                text: bet.receiverName,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -67,16 +70,18 @@ class _BetFeedListState extends State<BetFeedList> {
                             style: DefaultTextStyle.of(context).style,
                             children: <TextSpan>[
                               TextSpan(
-                                text:
-                                    bet.winner == 1 ? bet.bettor : bet.receiver,
+                                text: bet.winner == 1
+                                    ? bet.bettorName
+                                    : bet.receiverName,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               TextSpan(text: ' won a bet against '),
                               TextSpan(
-                                text:
-                                    bet.winner == 1 ? bet.receiver : bet.bettor,
+                                text: bet.winner == 1
+                                    ? bet.receiverName
+                                    : bet.bettorName,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
