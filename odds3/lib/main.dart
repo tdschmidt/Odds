@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
               create: (context) => StateManagement()..fetchBets()),
         ],
         child: MaterialApp(
-          title: 'FlutterFire Samples',
+          title: 'Odds',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.indigo,

@@ -13,7 +13,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Color.fromARGB(255, 251, 230, 184),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -24,7 +24,6 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Row(),
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -33,28 +32,30 @@ class _SignInScreenState extends State<SignInScreen> {
                     Flexible(
                       flex: 1,
                       child: Image.asset(
-                        'assets/firebase_logo.png',
+                        'assets/OddsOnboardingLogo.png',
                         height: 160,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'FlutterFire',
-                      style: TextStyle(
-                        color: Colors.yellow,
-                        fontSize: 40,
-                      ),
-                    ),
-                    const Text(
-                      'Authentication',
-                      style: TextStyle(
-                        color: Colors.orange,
-                        fontSize: 40,
                       ),
                     ),
                   ],
                 ),
               ),
+              Expanded(
+                  child: Align(
+                      alignment: FractionalOffset(0.5, .94),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Bet on fun, win with friends :)',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 156, 53, 48),
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ))),
               FutureBuilder(
                 future: Authentication.initializeFirebase(context: context),
                 builder: (context, snapshot) {
