@@ -60,7 +60,7 @@ class _UserProfileState extends State<UserProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        userState.curUser!.fullName,
+                        userState.curUser?.fullName ?? '',
                         style: TextStyle(
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold,
@@ -71,7 +71,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              userState.curUser!.username,
+                              userState.curUser?.username ?? '',
                               style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.grey,
@@ -125,7 +125,7 @@ class _UserProfileState extends State<UserProfile> {
                         )
                 ],
               )),
-          userState.curUser!.photoURL != null
+          userState.curUser?.photoURL != null
               ? Container(
                   padding: EdgeInsets.only(top: 20.0),
                   child: ClipOval(
@@ -159,7 +159,7 @@ class _UserProfileState extends State<UserProfile> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  userState.curUser!.tokens.toString(),
+                  userState.curUser?.tokens.toString() ?? '',
                   style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.bold,
@@ -177,9 +177,8 @@ class _UserProfileState extends State<UserProfile> {
           Padding(
             padding: EdgeInsets.only(top: 3, bottom: 10.0, left: 0.0),
             child: Text(
-              userState.curUser!.betsLost.toString() +
-                  '-' +
-                  userState.curUser!.betsLost.toString(),
+              userState.curUser?.betsLost.toString() ??
+                  '' + '-' + (userState.curUser?.betsLost.toString() ?? ''),
               style: TextStyle(
                 fontSize: 22.0,
                 fontWeight: FontWeight.bold,
