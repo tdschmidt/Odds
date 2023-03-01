@@ -58,7 +58,6 @@ class StateManagement with ChangeNotifier {
         .doc(user?.uid)
         .collection('bets')
         .add(bet.toFirestore());
-    notifyListeners();
 
     // update receiver
     await FirebaseFirestore.instance
@@ -67,6 +66,7 @@ class StateManagement with ChangeNotifier {
         .collection('bets')
         .add(bet.toFirestore());
     notifyListeners();
+    fetchBets();
   }
 
   Future<void> acceptBet(Bet bet) async {
