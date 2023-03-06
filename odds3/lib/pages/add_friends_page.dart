@@ -8,6 +8,8 @@ import '../screens/user_info_screen.dart';
 class AddFriendsPage extends StatefulWidget {
   @override
   _AddFriendsPageState createState() => _AddFriendsPageState();
+  List<FriendRequest> listItems; //Make friendrequest type
+  AddFriendsPage(this.listItems);
 }
 
 enum FriendStatus { ACCEPTED, DECLINED, OPEN }
@@ -129,6 +131,14 @@ class _AddFriendsPageState extends State<AddFriendsPage> {
                 ),
               ),
             ),
+            ListView.builder(
+                itemCount: widget.listItems.length,
+                itemBuilder: (context, index) {
+                  var bet = widget.listItems[index];
+                  return Card(
+                      //PUT REPRESENTATION OF FRIEND REQUEST HERE
+                      );
+                })
           ],
         ),
       ),
