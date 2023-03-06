@@ -1,20 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:odds3/classes/friend_request_item.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../screens/user_info_screen.dart';
 
 class AddFriendsPage extends StatefulWidget {
+  // @override
+  // _AddFriendsPageState createState() => _AddFriendsPageState();
+  // List<FriendRequest> listItems; //Make friendrequest type
+  // AddFriendsPage(this.listItems);
+  const AddFriendsPage({super.key});
+
   @override
-  _AddFriendsPageState createState() => _AddFriendsPageState();
-  List<FriendRequest> listItems; //Make friendrequest type
-  AddFriendsPage(this.listItems);
+  State<AddFriendsPage> createState() => _AddFriendsPage();
 }
 
 enum FriendStatus { ACCEPTED, DECLINED, OPEN }
 
-class _AddFriendsPageState extends State<AddFriendsPage> {
+class _AddFriendsPage extends State<AddFriendsPage> {
   // Instantiating the user for when we have to add friends to the user's subcollection
   User? user = FirebaseAuth.instance.currentUser;
   final _friendNameController = TextEditingController();
