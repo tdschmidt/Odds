@@ -39,7 +39,7 @@ class BetsProvider with ChangeNotifier {
     final List<QueryDocumentSnapshot> users = querySnapshot.docs;
 
     for (final QueryDocumentSnapshot user in users) {
-      QuerySnapshot userBets = await user.reference.collection('bets').get();
+      QuerySnapshot userBets = await user.reference.collection('bets').where('id', isNotEqualTo: '').get();
       List<Bet> cur_bets =
           userBets.docs.map((doc) => Bet.fromFirestore(doc)).toList();
 
