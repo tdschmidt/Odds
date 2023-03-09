@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:odds3/classes/friend_request_provider.dart';
 import 'package:odds3/pages/add_friends_page.dart';
 import 'package:odds3/widgets/leaderboard.dart';
 //import '../lib/pages/home_page.dart';
@@ -26,8 +27,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onAddFriends() {
+    final stateFriendRequests =
+        Provider.of<FriendRequestProvider>(context, listen: false);
+    stateFriendRequests.fetchFriendRequest();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AddFriendsPage()));
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                AddFriendsPage(stateFriendRequests.friend_requests)));
   }
 
   @override
