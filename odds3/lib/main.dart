@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:odds3/classes/cur_user_provider.dart';
 import 'package:provider/provider.dart';
 import 'classes/bets_provider.dart';
+import 'classes/friend_request_provider.dart';
 import 'main_page.dart';
 import 'screens/sign_in_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (context) => BetsProvider()..fetchBets()),
           ChangeNotifierProvider(create: (context) => CurUserProvider()),
+          ChangeNotifierProvider(
+              create: (context) =>
+                  FriendRequestProvider()..fetchFriendRequest()),
         ],
         child: MaterialApp(
           title: 'Odds',

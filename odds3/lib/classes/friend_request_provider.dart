@@ -10,7 +10,7 @@ class FriendRequestProvider with ChangeNotifier {
   User? user = FirebaseAuth.instance.currentUser;
 
   List<FriendRequest> _friend_requests = [];
-  List<FriendRequest> get friend_request => _friend_requests;
+  List<FriendRequest> get friend_requests => _friend_requests;
 
   void resetFriendRequests() {
     _friend_requests = [];
@@ -23,11 +23,13 @@ class FriendRequestProvider with ChangeNotifier {
         .collection('friendInvites')
         .where('id', isNotEqualTo: '')
         .get();
-    _friend_requests = snapshot.docs.map((doc) => FriendRequest.fromFirestore(doc)).toList();
+    _friend_requests =
+        snapshot.docs.map((doc) => FriendRequest.fromFirestore(doc)).toList();
     notifyListeners();
+    print(_friend_requests);
   }
 
-  Future<void> makeFriendRequeset(FriendRequest friendRequest) async {
+  Future<void> makeFriendRequest(FriendRequest friendRequest) async {
     // update inviter (who invites friend)
     await FirebaseFirestore.instance
         .collection('users')

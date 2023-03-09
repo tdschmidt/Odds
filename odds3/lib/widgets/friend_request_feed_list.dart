@@ -11,9 +11,9 @@ class FriendRequestList extends StatefulWidget {
   State<FriendRequestList> createState() => _FriendRequestList();
 }
 
-
 // Creation of the card
 // Can access the necessary variables through the FriendRequest class in friend_request_item.dart
+//NEED TO FILTER BY OPEN FRIEND REQUESTS, AND BY USER
 class _FriendRequestList extends State<FriendRequestList> {
   void filterList(List<FriendRequest> friend_requests) {
     widget.listItems = friend_requests
@@ -25,17 +25,14 @@ class _FriendRequestList extends State<FriendRequestList> {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<FriendRequestProvider>(context);
-
     return ListView.builder(
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
-        var bet = widget.listItems[index];
-        // if (bet.status == 0 || bet.status == 4) {
-        //   return SizedBox.shrink(); // returns an empty widget
-        // }
-        return Card(
-          color: bet.status == 1
-              ? Color.fromARGB(255, 255, 251, 240)
+        var friendRequest = widget.listItems[index];
+        return Text("requestItem");
+        /*return Card(
+          color: friendRequest.status == 1
+              ? Colors.orangeAccent
               : Color.fromARGB(255, 255, 252, 242), //change to an accent color
           child: Padding(
             padding: EdgeInsets.all(10.0),
@@ -53,76 +50,26 @@ class _FriendRequestList extends State<FriendRequestList> {
                     ),
                   ),
                 ),
+                SizedBox(width: 10.0),
                 Expanded(
-                    child: ListTile(
-                  title: bet.status == 1
-                      ? RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: bet.inviterName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(text: ' bets '),
-                              TextSpan(
-                                text: bet.receiverName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: bet.winner == 1
-                                    ? bet.bettorName
-                                    : bet.receiverName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(text: ' won a bet against '),
-                              TextSpan(
-                                text: bet.winner == 1
-                                    ? bet.receiverName
-                                    : bet.bettorName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
+                  child: Text.rich(
+                    TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: friendRequest.inviterName,
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                  subtitle: Text(bet.betText),
-                )),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      bet.bettorAmount.toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                        TextSpan(text: ' has sent you a friend request.'),
+                      ],
                     ),
-                    Text("to win"),
-                    Text(
-                      bet.receiverAmount.toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                 ),
               ],
             ),
           ),
-        );
+        );*/
       },
     );
   }

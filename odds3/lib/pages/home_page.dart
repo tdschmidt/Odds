@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:odds3/pages/add_friends_page.dart';
 import 'package:odds3/widgets/leaderboard.dart';
-import '../lib/pages/home_page.dart';
+//import '../lib/pages/home_page.dart';
 import '../widgets/bet_feed_list.dart';
 import '../widgets/toggle_switch.dart';
 import '../dummy_data.dart';

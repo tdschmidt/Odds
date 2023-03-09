@@ -5,6 +5,9 @@ import 'package:odds3/classes/friend_request_item.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../screens/user_info_screen.dart';
+import '../widgets/friend_request_feed_list.dart';
+import 'package:provider/provider.dart';
+import 'package:odds3/classes/friend_request_provider.dart';
 
 class AddFriendsPage extends StatefulWidget {
   // @override
@@ -136,14 +139,11 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                 ),
               ),
             ),
-            ListView.builder(
-                itemCount: widget.listItems.length,
-                itemBuilder: (context, index) {
-                  var bet = widget.listItems[index];
-                  return Card(
-                      //PUT REPRESENTATION OF FRIEND REQUEST HERE
-                      );
-                })
+            //Text("Friend Requests"),
+            Expanded(child:
+                Consumer<FriendRequestProvider>(builder: (context, state, _) {
+              return FriendRequestList(state.friend_requests);
+            }))
           ],
         ),
       ),
