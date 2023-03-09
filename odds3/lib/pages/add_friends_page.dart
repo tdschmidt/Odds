@@ -7,14 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../screens/user_info_screen.dart';
 
 class AddFriendsPage extends StatefulWidget {
-  // @override
-  // _AddFriendsPageState createState() => _AddFriendsPageState();
-  // List<FriendRequest> listItems; //Make friendrequest type
-  // AddFriendsPage(this.listItems);
-  const AddFriendsPage({super.key});
+
+  List<AddFriendsPage> listItems;
+  AddFriendsPage(this.listItems);
 
   @override
   State<AddFriendsPage> createState() => _AddFriendsPage();
+
 }
 
 enum FriendStatus { ACCEPTED, DECLINED, OPEN }
