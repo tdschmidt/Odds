@@ -1,20 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:odds3/classes/friend_request_item.dart';
+import 'package:odds3/classes/friend_request_provider.dart';
+import 'package:odds3/widgets/friend_request_feed_list.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:odds3/classes/friend_request_item.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../screens/user_info_screen.dart';
-import '../widgets/friend_request_feed_list.dart';
-import 'package:provider/provider.dart';
-import 'package:odds3/classes/friend_request_provider.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class AddFriendsPage extends StatefulWidget {
+
   List<FriendRequest> listItems;
   AddFriendsPage(this.listItems);
 
   @override
   State<AddFriendsPage> createState() => _AddFriendsPage();
+
 }
 
 enum FriendStatus { ACCEPTED, DECLINED, OPEN }
@@ -24,8 +29,12 @@ class _AddFriendsPage extends State<AddFriendsPage> {
   User? user = FirebaseAuth.instance.currentUser;
   final _friendNameController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
+    
+    final state = Provider.of<FriendRequestProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -78,41 +87,27 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                       .collection("users")
                       .doc(friendRequested['userId'])
                       .collection("friendInvites")
-                      .where('Inviter', isEqualTo: user?.uid)
+                      .where('inviterId', isEqualTo: user?.uid)
                       .get()
                       .then((friendDocs) {
                     if (friendDocs.docs.isNotEmpty) {
                       print("Friend request already exists");
                     } else {
                       // get's info on current user
+                      var inviterId = friendInviter?['userId'];
+                      var inviterName = friendInviter?['fullName'];
+                      var receiverId = friendRequested['userId'];
+                      var receiverName = friendRequested['fullName'];
+                      var timestampCreated = Timestamp.now().millisecondsSinceEpoch;;
+                      var status = 2;
 
-                      // Add friend request logic here
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(friendRequested['userId'])
-                          .collection('friendInvites')
-                          .add({
-                        "Inviter": friendInviter?['userId'],
-                        "InviterName": friendInviter?['fullName'],
-                        "Receiver": friendRequested['userId'],
-                        "ReceiverName": friendRequested['fullName'],
-                        "DateCreated": Timestamp.now().millisecondsSinceEpoch,
-                        "Status": FriendStatus.OPEN.index,
-                      });
+                      String idStringInput = inviterId + receiverId + timestampCreated.toString();
+                      List<int> plaintextBytes = utf8.encode(idStringInput); // Convert the string to a list of bytes
+                      Digest sha1FriendRequestHash = sha1.convert(plaintextBytes);
+                      String friendRequestId = sha1FriendRequestHash.toString();
 
-                      // adding the friend request info to both users' data
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(friendInviter?['userId'])
-                          .collection('friendInvites')
-                          .add({
-                        "Inviter": friendInviter?['userId'],
-                        "InviterName": friendInviter?['fullName'],
-                        "Receiver": friendRequested['userId'],
-                        "ReceiverName": friendRequested['fullName'],
-                        "DateCreated": Timestamp.now().millisecondsSinceEpoch,
-                        "Status": FriendStatus.OPEN.index,
-                      });
+                      FriendRequest curr_friend_request = FriendRequest(id: friendRequestId, inviterId: inviterId, inviterName: inviterName, receiverId: receiverId, receiverName: receiverName, timestampCreated: timestampCreated, status: status);
+                      state.makeFriendRequest(curr_friend_request);
                       print("Added friend");
                     }
                   });
