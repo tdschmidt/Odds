@@ -10,14 +10,13 @@ import 'package:provider/provider.dart';
 import 'package:odds3/classes/friend_request_provider.dart';
 
 class AddFriendsPage extends StatefulWidget {
-  // @override
-  // _AddFriendsPageState createState() => _AddFriendsPageState();
-  // List<FriendRequest> listItems; //Make friendrequest type
-  // AddFriendsPage(this.listItems);
-  const AddFriendsPage({super.key});
+
+  List<AddFriendsPage> listItems;
+  AddFriendsPage(this.listItems);
 
   @override
   State<AddFriendsPage> createState() => _AddFriendsPage();
+
 }
 
 enum FriendStatus { ACCEPTED, DECLINED, OPEN }
