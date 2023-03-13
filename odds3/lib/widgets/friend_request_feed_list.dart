@@ -17,23 +17,21 @@ class FriendRequestList extends StatefulWidget {
 class _FriendRequestList extends State<FriendRequestList> {
   void filterList(List<FriendRequest> friend_requests) {
     widget.listItems = friend_requests
-        .where(
-            (item) => item.status == 0 || item.status == 1 || item.status == 2)
+        .where((item) =>
+            item.status == 2) // || item.status == 1 || item.status == 2)
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<FriendRequestProvider>(context);
+    filterList(state.friend_requests);
     return ListView.builder(
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
         var friendRequest = widget.listItems[index];
-        return Text("requestItem");
-        /*return Card(
-          color: friendRequest.status == 1
-              ? Colors.orangeAccent
-              : Color.fromARGB(255, 255, 252, 242), //change to an accent color
+        return Card(
+          color: Color.fromARGB(255, 255, 252, 242),
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Row(
@@ -66,10 +64,34 @@ class _FriendRequestList extends State<FriendRequestList> {
                     maxLines: 2,
                   ),
                 ),
+                SizedBox(width: 10.0),
+                GestureDetector(
+                  onTap: () {
+                    // Placeholder method for handling clicks on the green checkmark icon
+                    state.acceptFriendRequest(friendRequest);
+                    print("Accepted friend request.");
+                  },
+                  child: Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                  ),
+                ),
+                SizedBox(width: 10.0),
+                GestureDetector(
+                  onTap: () {
+                    // Placeholder method for handling clicks on the red X icon
+                    state.rejectFriendRequest(friendRequest);
+                    print("Declined friend request.");
+                  },
+                  child: Icon(
+                    Icons.cancel,
+                    color: Colors.red,
+                  ),
+                ),
               ],
             ),
           ),
-        );*/
+        );
       },
     );
   }
