@@ -57,6 +57,8 @@ class _BetPageState extends State<BetPage> {
       receiverId: receiver['userId'],
       bettorAmount: int.parse(yourBet),
       receiverAmount: int.parse(theirBet),
+      bettorProfileUrl: bettor?['photoUrl'],
+      receiverProfileUrl: receiver['photoUrl'],
       timestampCreated: currentTimestamp,
       betText: betText,
       status: 0,

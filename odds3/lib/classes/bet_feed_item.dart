@@ -7,6 +7,8 @@ class Bet {
   String receiverId;
   int bettorAmount = 0;
   int receiverAmount = 0;
+  String bettorProfileUrl;
+  String receiverProfileUrl;
   String betText;
   bool userLiked = false;
   int timestampCreated;
@@ -22,6 +24,8 @@ class Bet {
       required this.receiverId,
       required this.bettorAmount,
       required this.receiverAmount,
+      required this.bettorProfileUrl,
+      required this.receiverProfileUrl,
       required this.betText,
       required this.status,
       required this.timestampCreated,
@@ -53,6 +57,8 @@ class Bet {
         receiverId: data['receiverId'] ?? '',
         bettorAmount: data['bettorAmount'] ?? 0,
         receiverAmount: data['receiverAmount'] ?? 0,
+        bettorProfileUrl: data['bettorProfileUrl'] ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+        receiverProfileUrl: data['receiverProfileUrl'] ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
         betText: data['betText'] ?? '',
         timestampCreated: data['timestampCreated'] ?? 8640000000000,
         userLiked: data['userLiked'] ?? false,
@@ -69,6 +75,8 @@ class Bet {
       'receiverId': receiverId,
       'bettorAmount': bettorAmount,
       'receiverAmount': receiverAmount,
+      'bettorProfileUrl': bettorProfileUrl,
+      'receiverProfileUrl': receiverProfileUrl,
       'betText': betText,
       'timestampCreated': timestampCreated,
       'userLiked': userLiked,
