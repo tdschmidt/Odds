@@ -17,6 +17,8 @@ class _MeFeedListState extends State<MeFeedList> {
   User? user = FirebaseAuth.instance.currentUser;
 
   void filterList(List<Bet> bets) {
+    bets.sort((a, b) => b.timestampCreated.compareTo(a.timestampCreated));
+
     if (widget.status == 1) {
       widget.listItems =
           bets.where((item) => item.status == 0 || item.status == 1).toList();
