@@ -38,17 +38,38 @@ class _BetFeedListState extends State<BetFeedList> {
             padding: EdgeInsets.all(10.0),
             child: Row(
               children: <Widget>[
-                Container(
-                  height: 50.0,
-                  width: 50.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"),
-                      fit: BoxFit.cover,
+                Row(
+                  children: [
+                    // first the bettor then the receiver
+                    Container(
+                      height: 25.0,
+                      width: 25.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              bet.bettorProfileUrl),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox (
+                      width: 5.0
+                    ),
+                    Container(
+                      height: 25.0,
+                      width: 25.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              bet.receiverProfileUrl),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                    
+                  ]
                 ),
                 Expanded(
                     child: ListTile(
