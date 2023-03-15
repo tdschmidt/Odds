@@ -82,6 +82,10 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                       .get();
                   // This is the case where we get no matches
                   if (querySnapShot.docs.isEmpty) {
+                    final snackBar = SnackBar(
+                      content: const Text('This user was not found.'),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     print("No user found with name $friendName");
                   } else {
                     // This is the case where a match was found
@@ -99,6 +103,11 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                         .then((friendDocs) {
                       if (friendDocs.docs.isNotEmpty) {
                         print("Friend request already exists");
+                        final snackBar = SnackBar(
+                          content: const Text(
+                              'You already have an open friend request with this user.'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
                         // get's info on current user
                         var inviterId = friendInviter?['userId'];
@@ -130,6 +139,10 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                             status: status);
                         state.makeFriendRequest(curr_friend_request);
                         print("Added friend");
+                        final snackBar = SnackBar(
+                          content: const Text('Friend request sent :)'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     });
                   }
