@@ -58,6 +58,14 @@ class FriendRequestProvider with ChangeNotifier {
         .collection('friendInvites')
         .doc(friendRequest.id)
         .update(friendRequest.toFirestore());
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(friendRequest.receiverId)
+        .collection('friends')
+        .doc(friendRequest.inviterId)
+        .set({'id': friendRequest.inviterId});
+
     // update inviter
     await FirebaseFirestore.instance
         .collection('users')
@@ -65,6 +73,14 @@ class FriendRequestProvider with ChangeNotifier {
         .collection('friendInvites')
         .doc(friendRequest.id)
         .update(friendRequest.toFirestore());
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(friendRequest.inviterId)
+        .collection('friends')
+        .doc(friendRequest.receiverId)
+        .set({'id': friendRequest.receiverId});
+
     notifyListeners();
   }
 

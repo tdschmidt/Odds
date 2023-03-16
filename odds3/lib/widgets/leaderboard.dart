@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../classes/user.dart';
+import 'package:provider/provider.dart';
+import 'package:odds3/classes/cur_user_friends_provider.dart';
 
 class Leaderboard extends StatefulWidget {
-  final List<CurUser> listItems;
-  Leaderboard(this.listItems);
+  // final List<CurUser> listItems;
+
+  Leaderboard();
 
   @override
   State<Leaderboard> createState() => _LeaderboardState();
@@ -12,8 +15,12 @@ class Leaderboard extends StatefulWidget {
 class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<UserFriendsProvider>(context);
+    state.fetchFriends();
+    List<CurUser> listItems = state.userFriends;
+
     return ListView.builder(
-      itemCount: widget.listItems.length,
+      itemCount: listItems.length,
       itemBuilder: (context, index) {
         return Card(
           elevation: 1,
@@ -41,7 +48,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 SizedBox(width: 16),
                 Expanded(
                   child: Text(
-                    widget.listItems[index].fullName,
+                    listItems[index].fullName,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -56,7 +63,7 @@ class _LeaderboardState extends State<Leaderboard> {
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          '${widget.listItems[index].tokens}',
+                          '${listItems[index].tokens}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -72,7 +79,7 @@ class _LeaderboardState extends State<Leaderboard> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      '${widget.listItems[index].betsWon} - ${widget.listItems[index].betsLost}',
+                      '${listItems[index].betsWon} - ${listItems[index].betsLost}',
                       style: TextStyle(
                         color: Colors.grey[500],
                         fontSize: 14,

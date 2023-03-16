@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:odds3/classes/cur_user_friends_provider.dart';
 import 'package:odds3/classes/cur_user_provider.dart';
 import 'package:provider/provider.dart';
 import 'classes/bets_provider.dart';
@@ -29,6 +30,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (context) =>
                   FriendRequestProvider()..fetchFriendRequest()),
+          ChangeNotifierProvider(
+              create: (context) => UserFriendsProvider()..fetchFriends()),
         ],
         child: MaterialApp(
           title: 'Odds',
