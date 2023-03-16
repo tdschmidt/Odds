@@ -32,21 +32,47 @@ class BetsProvider with ChangeNotifier {
   }
 
   Future<void> fetchFriendBets() async {
-    List<Bet> all_bets = [];
+    Set<Bet> all_bets = {};
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('users').get();
 
     final List<QueryDocumentSnapshot> users = querySnapshot.docs;
 
     for (final QueryDocumentSnapshot user in users) {
-      QuerySnapshot userBets = await user.reference.collection('bets').where('id', isNotEqualTo: '').get();
+      QuerySnapshot userBets = await user.reference
+          .collection('bets')
+          .where('id', isNotEqualTo: '')
+          .get();
       List<Bet> cur_bets =
           userBets.docs.map((doc) => Bet.fromFirestore(doc)).toList();
 
       all_bets.addAll(cur_bets);
     }
 
-    _friendBets = all_bets;
+    //get user friends
+    List<CurUser> friends = [];
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .get();
+    friends.add(CurUser.fromFirestore(snapshot));
+
+    QuerySnapshot snapshotF = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('friends')
+        .where('id', isNotEqualTo: '')
+        .get();
+
+    List<String> ids = snapshotF.docs.map((doc) => doc.id).toList();
+    print(ids);
+    for (Bet bet in all_bets.toList()) {
+      if (!ids.contains(bet.bettorId) && !ids.contains(bet.receiverId)) {
+        all_bets.remove(bet);
+      }
+    }
+
+    _friendBets = all_bets.toList();
 
     notifyListeners();
   }
@@ -141,7 +167,8 @@ class BetsProvider with ChangeNotifier {
   Future<void> concedeBet(Bet bet) async {
     bet.status = 2;
     // winner = 0 for better winning, 1 for receiver winning
-    bet.winner = user?.uid == bet.bettorId;
+    bool winner = user?.uid == bet.bettorId;
+    bet.winner = winner;
 
     //updates both the bettor and the receiver's obj
     await FirebaseFirestore.instance
@@ -158,5 +185,32 @@ class BetsProvider with ChangeNotifier {
         .doc(bet.id)
         .update(bet.toFirestore());
     notifyListeners();
+
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(bet.bettorId)
+        .get();
+
+    CurUser bettor = CurUser.fromFirestore(snapshot);
+
+    DocumentSnapshot snapshot2 = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(bet.receiverId)
+        .get();
+
+    CurUser receiver = CurUser.fromFirestore(snapshot2);
+    if (winner) {
+      receiver.betsWon = receiver.betsWon + 1;
+      bettor.betsLost = bettor.betsLost + 1;
+
+      receiver.tokens = receiver.tokens + bet.bettorAmount;
+      bettor.tokens = bettor.tokens - bet.bettorAmount;
+    } else {
+      receiver.betsWon = receiver.betsLost + 1;
+      bettor.betsLost = bettor.betsWon + 1;
+
+      receiver.tokens = receiver.tokens - bet.receiverAmount;
+      bettor.tokens = bettor.tokens + bet.receiverAmount;
+    }
   }
 }
