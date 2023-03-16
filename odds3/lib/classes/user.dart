@@ -28,7 +28,7 @@ class CurUser {
       username: data['username'] ?? '',
       betsWon: data['betsWon'] ?? 0,
       betsLost: data['betsLost'] ?? 0,
-      tokens: data['tokens'] ?? 0,
+      tokens: data['tokenAmount'] ?? 0,
       photoURL: data['photoURL'],
     );
   }

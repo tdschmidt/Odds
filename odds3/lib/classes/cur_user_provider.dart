@@ -28,7 +28,9 @@ class CurUserProvider with ChangeNotifier {
         .collection('users')
         .doc(user?.uid)
         .get();
+
     _curUser = CurUser.fromFirestore(snapshot);
+    print(_curUser?.tokens);
     notifyListeners();
   }
 }
