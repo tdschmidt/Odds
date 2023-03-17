@@ -77,34 +77,6 @@ class BetsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /*
-  void fetchBets() {
-    _bets = dummy_bets;
-    notifyListeners();
-  }
-
-  void acceptBet(Bet bet) {
-    bet.status = 1;
-    notifyListeners();
-  }
-
-  void rejectBet(Bet bet) {
-    bet.status = 3;
-    notifyListeners();
-  }
-
-  void concedeBet(Bet bet, String concederUid) {
-    bet.winner = concederUid == bet.bettor;
-    bet.status = 2;
-    notifyListeners();
-  }  
-  
-  void makeBet(Bet bet) {
-    _bets.add(bet);
-    notifyListeners();
-  }
-  */
-
   Future<void> makeBet(Bet bet) async {
     // update bettor (who makes the bet)
     await FirebaseFirestore.instance
@@ -199,18 +171,43 @@ class BetsProvider with ChangeNotifier {
         .get();
 
     CurUser receiver = CurUser.fromFirestore(snapshot2);
+
+    int receiverBetsWon = 0;
+    int bettorBetsWon = 0;
+    int receiverBetsLost = 0;
+    int bettorBetsLost = 0;
+    int receiverTokens = 0;
+    int bettorTokens = 0;
+
     if (winner) {
-      receiver.betsWon = receiver.betsWon + 1;
-      bettor.betsLost = bettor.betsLost + 1;
+      receiverBetsWon = 1;
+      bettorBetsLost = 1;
 
-      receiver.tokens = receiver.tokens + bet.bettorAmount;
-      bettor.tokens = bettor.tokens - bet.bettorAmount;
+      receiverTokens = bet.bettorAmount;
+      bettorTokens = -bet.bettorAmount;
     } else {
-      receiver.betsWon = receiver.betsLost + 1;
-      bettor.betsLost = bettor.betsWon + 1;
+      receiverBetsLost = 1;
+      bettorBetsWon = 1;
 
-      receiver.tokens = receiver.tokens - bet.receiverAmount;
-      bettor.tokens = bettor.tokens + bet.receiverAmount;
+      receiverTokens = -bet.receiverAmount;
+      bettorTokens = bet.receiverAmount;
     }
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(bet.bettorId)
+        .update({
+      "tokens": FieldValue.increment(bettorTokens),
+      "betsWon": FieldValue.increment(bettorBetsWon),
+      "betsLost": FieldValue.increment(bettorBetsLost)
+    });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(bet.receiverId)
+        .update({
+      "tokens": FieldValue.increment(receiverTokens),
+      "betsWon": FieldValue.increment(receiverBetsWon),
+      "betsLost": FieldValue.increment(receiverBetsLost)
+    });
   }
 }
