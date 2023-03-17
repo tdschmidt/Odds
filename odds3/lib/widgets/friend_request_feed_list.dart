@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../classes/friend_request_item.dart';
 import '../classes/friend_request_provider.dart';
+import '../classes/cur_user_provider.dart';
+import '../classes/user.dart';
 
 class FriendRequestList extends StatefulWidget {
   List<FriendRequest> listItems;
@@ -15,17 +17,21 @@ class FriendRequestList extends StatefulWidget {
 // Can access the necessary variables through the FriendRequest class in friend_request_item.dart
 //NEED TO FILTER BY OPEN FRIEND REQUESTS, AND BY USER
 class _FriendRequestList extends State<FriendRequestList> {
-  void filterList(List<FriendRequest> friend_requests) {
+  void filterList(List<FriendRequest> friend_requests, CurUser? user) {
     widget.listItems = friend_requests
-        .where((item) =>
-            item.status == 2) // || item.status == 1 || item.status == 2)
+        .where((item) => item.status == 2)
+        .where((element) =>
+            element.receiverId ==
+            user?.uid) // || item.status == 1 || item.status == 2)
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<FriendRequestProvider>(context);
-    filterList(state.friend_requests);
+    final stateUser = Provider.of<CurUserProvider>(context);
+    stateUser.fetchCurUser();
+    filterList(state.friend_requests, stateUser.curUser);
     return ListView.builder(
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {

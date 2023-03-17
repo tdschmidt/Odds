@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
     final stateFriendRequests =
         Provider.of<FriendRequestProvider>(context, listen: false);
     stateFriendRequests.fetchFriendRequest();
+
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // final userFriend = Provider.of<UserFriendsProvider>(context);
     final state = Provider.of<BetsProvider>(context);
     state.fetchFriendBets();
 
@@ -54,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                 child: Consumer<BetsProvider>(builder: (context, state, _) {
                 return BetFeedList(state.friendBets);
               }))
-            : Expanded(child: Leaderboard(users)),
+            : Expanded(child: Leaderboard()),
       ],
     );
   }

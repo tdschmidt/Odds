@@ -8,8 +8,10 @@ List<Bet> dummy_bets = [
       receiverId: 'Tia',
       bettorAmount: 5,
       receiverAmount: 5,
-      bettorProfileUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
-      receiverProfileUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+      bettorProfileUrl:
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+      receiverProfileUrl:
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
       status: 1,
       timestampCreated: 1231231231231,
       betText: 'she wont go to berlin',
@@ -21,8 +23,10 @@ List<Bet> dummy_bets = [
       receiverId: 'Gary',
       bettorAmount: 10,
       receiverAmount: 1,
-      bettorProfileUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
-      receiverProfileUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+      bettorProfileUrl:
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+      receiverProfileUrl:
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
       status: 1,
       timestampCreated: 23462934798234,
       betText: 'Eagles win superbowl',
@@ -34,8 +38,10 @@ List<Bet> dummy_bets = [
       receiverId: 'Jen',
       bettorAmount: 5,
       receiverAmount: 4,
-      bettorProfileUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
-      receiverProfileUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+      bettorProfileUrl:
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+      receiverProfileUrl:
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
       status: 0,
       timestampCreated: 89547983475043,
       betText: 'Firebase will crash on us',
@@ -47,8 +53,10 @@ List<Bet> dummy_bets = [
       receiverId: 'Theo',
       bettorAmount: 10,
       receiverAmount: 1,
-      bettorProfileUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
-      receiverProfileUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+      bettorProfileUrl:
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+      receiverProfileUrl:
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
       status: 1,
       timestampCreated: 83749283497023,
       betText: 'Flutter will give us plenty of problems',

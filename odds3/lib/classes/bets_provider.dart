@@ -32,52 +32,50 @@ class BetsProvider with ChangeNotifier {
   }
 
   Future<void> fetchFriendBets() async {
-    List<Bet> all_bets = [];
+    Set<Bet> all_bets = {};
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('users').get();
 
     final List<QueryDocumentSnapshot> users = querySnapshot.docs;
 
     for (final QueryDocumentSnapshot user in users) {
-      QuerySnapshot userBets = await user.reference.collection('bets').where('id', isNotEqualTo: '').get();
+      QuerySnapshot userBets = await user.reference
+          .collection('bets')
+          .where('id', isNotEqualTo: '')
+          .get();
       List<Bet> cur_bets =
           userBets.docs.map((doc) => Bet.fromFirestore(doc)).toList();
 
       all_bets.addAll(cur_bets);
     }
 
-    _friendBets = all_bets;
+    //get user friends
+    List<CurUser> friends = [];
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .get();
+    friends.add(CurUser.fromFirestore(snapshot));
+
+    QuerySnapshot snapshotF = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('friends')
+        .where('id', isNotEqualTo: '')
+        .get();
+
+    List<String> ids = snapshotF.docs.map((doc) => doc.id).toList();
+    print(ids);
+    for (Bet bet in all_bets.toList()) {
+      if (!ids.contains(bet.bettorId) && !ids.contains(bet.receiverId)) {
+        all_bets.remove(bet);
+      }
+    }
+
+    _friendBets = all_bets.toList();
 
     notifyListeners();
   }
-
-  /*
-  void fetchBets() {
-    _bets = dummy_bets;
-    notifyListeners();
-  }
-
-  void acceptBet(Bet bet) {
-    bet.status = 1;
-    notifyListeners();
-  }
-
-  void rejectBet(Bet bet) {
-    bet.status = 3;
-    notifyListeners();
-  }
-
-  void concedeBet(Bet bet, String concederUid) {
-    bet.winner = concederUid == bet.bettor;
-    bet.status = 2;
-    notifyListeners();
-  }  
-  
-  void makeBet(Bet bet) {
-    _bets.add(bet);
-    notifyListeners();
-  }
-  */
 
   Future<void> makeBet(Bet bet) async {
     // update bettor (who makes the bet)
@@ -141,7 +139,8 @@ class BetsProvider with ChangeNotifier {
   Future<void> concedeBet(Bet bet) async {
     bet.status = 2;
     // winner = 0 for better winning, 1 for receiver winning
-    bet.winner = user?.uid == bet.bettorId;
+    bool winner = user?.uid == bet.bettorId;
+    bet.winner = winner;
 
     //updates both the bettor and the receiver's obj
     await FirebaseFirestore.instance
@@ -158,5 +157,57 @@ class BetsProvider with ChangeNotifier {
         .doc(bet.id)
         .update(bet.toFirestore());
     notifyListeners();
+
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(bet.bettorId)
+        .get();
+
+    CurUser bettor = CurUser.fromFirestore(snapshot);
+
+    DocumentSnapshot snapshot2 = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(bet.receiverId)
+        .get();
+
+    CurUser receiver = CurUser.fromFirestore(snapshot2);
+
+    int receiverBetsWon = 0;
+    int bettorBetsWon = 0;
+    int receiverBetsLost = 0;
+    int bettorBetsLost = 0;
+    int receiverTokens = 0;
+    int bettorTokens = 0;
+
+    if (winner) {
+      receiverBetsWon = 1;
+      bettorBetsLost = 1;
+
+      receiverTokens = bet.bettorAmount;
+      bettorTokens = -bet.bettorAmount;
+    } else {
+      receiverBetsLost = 1;
+      bettorBetsWon = 1;
+
+      receiverTokens = -bet.receiverAmount;
+      bettorTokens = bet.receiverAmount;
+    }
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(bet.bettorId)
+        .update({
+      "tokens": FieldValue.increment(bettorTokens),
+      "betsWon": FieldValue.increment(bettorBetsWon),
+      "betsLost": FieldValue.increment(bettorBetsLost)
+    });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(bet.receiverId)
+        .update({
+      "tokens": FieldValue.increment(receiverTokens),
+      "betsWon": FieldValue.increment(receiverBetsWon),
+      "betsLost": FieldValue.increment(receiverBetsLost)
+    });
   }
 }

@@ -177,8 +177,9 @@ class _UserProfileState extends State<UserProfile> {
           Padding(
             padding: EdgeInsets.only(top: 3, bottom: 10.0, left: 0.0),
             child: Text(
-              userState.curUser?.betsLost.toString() ??
-                  '' + '-' + (userState.curUser?.betsLost.toString() ?? ''),
+              (userState.curUser?.betsWon.toString() ?? '') +
+                  '-' +
+                  (userState.curUser?.betsLost.toString() ?? ''),
               style: TextStyle(
                 fontSize: 22.0,
                 fontWeight: FontWeight.bold,
