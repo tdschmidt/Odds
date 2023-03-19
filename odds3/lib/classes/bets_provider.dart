@@ -51,11 +51,17 @@ class BetsProvider with ChangeNotifier {
 
     //get user friends
     List<CurUser> friends = [];
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(user?.uid)
-        .get();
-    friends.add(CurUser.fromFirestore(snapshot));
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        friends.add(CurUser.fromFirestore(documentSnapshot));
+      } else {
+        print('User as a friend does not exist on the database');
+      }
+    });
 
     QuerySnapshot snapshotF = await FirebaseFirestore.instance
         .collection('users')
@@ -73,7 +79,6 @@ class BetsProvider with ChangeNotifier {
     }
 
     _friendBets = all_bets.toList();
-
     notifyListeners();
   }
 

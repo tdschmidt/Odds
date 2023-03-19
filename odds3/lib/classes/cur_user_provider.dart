@@ -24,11 +24,17 @@ class CurUserProvider with ChangeNotifier {
   CurUser? get curUser => _curUser;
 
   Future<void> fetchCurUser() async {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(user?.uid)
-        .get();
-    _curUser = CurUser.fromFirestore(snapshot);
-    notifyListeners();
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        _curUser = CurUser.fromFirestore(documentSnapshot);
+        notifyListeners();
+      } else {
+        print('User does not exist on the database');
+      }
+    });
   }
 }
