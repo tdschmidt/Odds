@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:odds3/classes/bet_feed_item.dart';
-import 'package:odds3/classes/cur_user_provider.dart';
 import 'package:odds3/classes/user.dart';
-import 'package:provider/provider.dart';
 
 class BetsProvider with ChangeNotifier {
   User? user = FirebaseAuth.instance.currentUser;
@@ -32,7 +30,7 @@ class BetsProvider with ChangeNotifier {
   }
 
   Future<void> fetchFriendBets() async {
-    Set<Bet> all_bets = {};
+    Set<Bet> allBets = {};
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('users').get();
 
@@ -43,10 +41,10 @@ class BetsProvider with ChangeNotifier {
           .collection('bets')
           .where('id', isNotEqualTo: '')
           .get();
-      List<Bet> cur_bets =
+      List<Bet> curBets =
           userBets.docs.map((doc) => Bet.fromFirestore(doc)).toList();
 
-      all_bets.addAll(cur_bets);
+      allBets.addAll(curBets);
     }
 
     //get user friends
@@ -72,13 +70,13 @@ class BetsProvider with ChangeNotifier {
 
     List<String> ids = snapshotF.docs.map((doc) => doc.id).toList();
     print(ids);
-    for (Bet bet in all_bets.toList()) {
+    for (Bet bet in allBets.toList()) {
       if (!ids.contains(bet.bettorId) && !ids.contains(bet.receiverId)) {
-        all_bets.remove(bet);
+        allBets.remove(bet);
       }
     }
 
-    _friendBets = all_bets.toList();
+    _friendBets = allBets.toList();
     notifyListeners();
   }
 
