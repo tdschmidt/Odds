@@ -65,6 +65,7 @@ class Authentication {
         if (user != null && await isNewUser(user: user)) {
           await addUser(user: user);
         }
+        userState.fetchCurUser();
         betsState.fetchBets();
         betsState.fetchFriendBets();
       } on FirebaseAuthException catch (e) {
