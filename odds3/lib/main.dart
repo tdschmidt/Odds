@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-              create: (context) => BetsProvider()..fetchBets()),
+              create: (context) => BetsProvider()
+                ..fetchBets()
+                ..fetchFriendBets()),
           ChangeNotifierProvider(create: (context) => CurUserProvider()),
           ChangeNotifierProvider(
               create: (context) =>

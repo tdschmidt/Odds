@@ -16,7 +16,6 @@ class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<UserFriendsProvider>(context);
-    state.fetchFriends();
     List<CurUser> listItems = state.userFriends;
     return ListView.builder(
       itemCount: listItems.length,
@@ -36,8 +35,8 @@ class _LeaderboardState extends State<Leaderboard> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: NetworkImage(
-                          listItems[index].photoURL ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"),
+                      image: NetworkImage(listItems[index].photoURL ??
+                          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
