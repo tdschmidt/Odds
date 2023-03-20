@@ -51,11 +51,14 @@ class _MeFeedListState extends State<MeFeedList> {
                 },
               ),
             ])
-          : const Text(
-              "You Proposed",
-              style: TextStyle(
-                  color: Color.fromARGB(
-                      255, 184, 74, 43)), //Should be replaced with theme color
+          : const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                "You Proposed",
+                style: TextStyle(
+                    color: Color.fromARGB(255, 184, 74,
+                        43)), //Should be replaced with theme color
+              ),
             );
     } else if (bet.status == 1) {
       //both should have conceding option
@@ -112,7 +115,7 @@ class _MeFeedListState extends State<MeFeedList> {
           child: Card(
             color: Theme.of(context).colorScheme.secondary,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -135,7 +138,7 @@ class _MeFeedListState extends State<MeFeedList> {
                       Text(bet.bettorAmount.toString()),
                       Text("to win"),
                       Text(bet.receiverAmount.toString()),
-                      SizedBox(height: 24.0),
+                      SizedBox(height: 2.0),
                       getBetColumn(betsState, bet, userState),
                     ],
                   ),
