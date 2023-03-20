@@ -14,6 +14,7 @@ class BetFeedList extends StatefulWidget {
 
 class _BetFeedListState extends State<BetFeedList> {
   void filterList(List<Bet> bets) {
+    bets.sort((a, b) => b.timestampCreated.compareTo(a.timestampCreated));
     widget.listItems = bets
         .where(
             (item) => item.status == 0 || item.status == 1 || item.status == 2)
