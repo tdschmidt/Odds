@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:odds3/classes/bet_feed_item.dart';
-import 'package:odds3/classes/cur_user_provider.dart';
 import 'package:odds3/classes/user.dart';
-import 'package:provider/provider.dart';
 
 class BetsProvider with ChangeNotifier {
   User? user = FirebaseAuth.instance.currentUser;
@@ -32,7 +30,7 @@ class BetsProvider with ChangeNotifier {
   }
 
   Future<void> fetchFriendBets() async {
-    Set<Bet> all_bets = {};
+    Set<Bet> allBets = {};
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('users').get();
 
@@ -43,10 +41,10 @@ class BetsProvider with ChangeNotifier {
           .collection('bets')
           .where('id', isNotEqualTo: '')
           .get();
-      List<Bet> cur_bets =
+      List<Bet> curBets =
           userBets.docs.map((doc) => Bet.fromFirestore(doc)).toList();
 
-      all_bets.addAll(cur_bets);
+      allBets.addAll(curBets);
     }
 
     //get user friends
@@ -72,13 +70,13 @@ class BetsProvider with ChangeNotifier {
 
     List<String> ids = snapshotF.docs.map((doc) => doc.id).toList();
     print(ids);
-    for (Bet bet in all_bets.toList()) {
+    for (Bet bet in allBets.toList()) {
       if (!ids.contains(bet.bettorId) && !ids.contains(bet.receiverId)) {
-        all_bets.remove(bet);
+        allBets.remove(bet);
       }
     }
 
-    _friendBets = all_bets.toList();
+    _friendBets = allBets.toList();
     notifyListeners();
   }
 
@@ -89,7 +87,8 @@ class BetsProvider with ChangeNotifier {
         .doc(user?.uid)
         .collection('bets')
         .doc(bet.id)
-        .set(bet.toFirestore());
+        .set(bet.toFirestore())
+        .onError((e, _) => print("Error making bettor bet ${bet.id}: $e"));
 
     // update receiver
     await FirebaseFirestore.instance
@@ -97,9 +96,9 @@ class BetsProvider with ChangeNotifier {
         .doc(bet.receiverId)
         .collection('bets')
         .doc(bet.id)
-        .set(bet.toFirestore());
+        .set(bet.toFirestore())
+        .onError((e, _) => print("Error making receiver bet ${bet.id}: $e"));
     notifyListeners();
-    fetchBets();
   }
 
   Future<void> acceptBet(Bet bet) async {
@@ -110,14 +109,16 @@ class BetsProvider with ChangeNotifier {
         .doc(user?.uid)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error accepting bet ${bet.id}: $e"));
     // update bettor
     await FirebaseFirestore.instance
         .collection('users')
         .doc(bet.bettorId)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error accepting bet ${bet.id}: $e"));
     notifyListeners();
   }
 
@@ -129,7 +130,8 @@ class BetsProvider with ChangeNotifier {
         .doc(user?.uid)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error rejecting bet ${bet.id}: $e"));
 
     // update bettor
     await FirebaseFirestore.instance
@@ -137,7 +139,8 @@ class BetsProvider with ChangeNotifier {
         .doc(bet.bettorId)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error rejecting bet ${bet.id}: $e"));
     notifyListeners();
   }
 
@@ -153,30 +156,19 @@ class BetsProvider with ChangeNotifier {
         .doc(bet.bettorId)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error conceding bet ${bet.id}: $e"));
 
     await FirebaseFirestore.instance
         .collection('users')
         .doc(bet.receiverId)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error conceding bet ${bet.id}: $e"));
     notifyListeners();
 
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(bet.bettorId)
-        .get();
-
-    CurUser bettor = CurUser.fromFirestore(snapshot);
-
-    DocumentSnapshot snapshot2 = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(bet.receiverId)
-        .get();
-
-    CurUser receiver = CurUser.fromFirestore(snapshot2);
-
+    // change in user values
     int receiverBetsWon = 0;
     int bettorBetsWon = 0;
     int receiverBetsLost = 0;
@@ -197,14 +189,12 @@ class BetsProvider with ChangeNotifier {
       receiverTokens = -bet.receiverAmount;
       bettorTokens = bet.receiverAmount;
     }
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(bet.bettorId)
-        .update({
+    await FirebaseFirestore.instance.collection('users').doc(bet.bettorId).update({
       "tokens": FieldValue.increment(bettorTokens),
       "betsWon": FieldValue.increment(bettorBetsWon),
       "betsLost": FieldValue.increment(bettorBetsLost)
-    });
+    }).onError((e, _) => print(
+        "Error updating bettor ${bet.bettorId} with bet ${bet.bettorId}: $e"));
 
     await FirebaseFirestore.instance
         .collection('users')
@@ -213,6 +203,7 @@ class BetsProvider with ChangeNotifier {
       "tokens": FieldValue.increment(receiverTokens),
       "betsWon": FieldValue.increment(receiverBetsWon),
       "betsLost": FieldValue.increment(receiverBetsLost)
-    });
+    }).onError((e, _) => print(
+            "Error updating bettor ${bet.receiverId} with bet ${bet.bettorId}: $e"));
   }
 }

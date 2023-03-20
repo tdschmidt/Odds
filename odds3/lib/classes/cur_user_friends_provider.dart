@@ -15,11 +15,17 @@ class UserFriendsProvider with ChangeNotifier {
 
   Future<void> fetchFriends() async {
     List<CurUser> friends = [];
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(user?.uid)
-        .get();
-    friends.add(CurUser.fromFirestore(snapshot));
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        friends.add(CurUser.fromFirestore(documentSnapshot));
+      } else {
+        print('User does not exist on the database');
+      }
+    });
 
     QuerySnapshot snapshotF = await FirebaseFirestore.instance
         .collection('users')
@@ -33,9 +39,10 @@ class UserFriendsProvider with ChangeNotifier {
     for (String id in ids) {
       DocumentSnapshot userSnapShot =
           await FirebaseFirestore.instance.collection('users').doc(id).get();
-      CurUser toAdd = CurUser.fromFirestore(userSnapShot);
-
-      friends.add(toAdd);
+      if (userSnapShot.exists) {
+        CurUser toAdd = CurUser.fromFirestore(userSnapShot);
+        friends.add(toAdd);
+      }
     }
     _userFriends = friends;
     notifyListeners();
