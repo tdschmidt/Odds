@@ -51,12 +51,10 @@ class _BetPageState extends State<BetPage> {
     String betId = sha1BetHash.toString();
     print(betId);
 
-
     var numCheck1 = num.tryParse(yourBet);
     var numCheck2 = num.tryParse(theirBet);
 
     if (numCheck1 != null && numCheck2 != null) {
-
       Bet newBet = Bet(
         id: betId,
         bettorId: bettor?['userId'],
@@ -75,21 +73,24 @@ class _BetPageState extends State<BetPage> {
       bool isReceiverAFriend = await state.isFriend(newBet);
       if (!isReceiverAFriend) {
         final snackBar = SnackBar(
-                              content: const Text(
-                                  'You cannot make a bet against someone who is not your friend.'),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-      else{
+          content: const Text(
+              'You cannot make a bet against someone who is not your friend.'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
         state.makeBet(newBet);
+        final snackBar = SnackBar(
+          content: Text(
+              'You bet ${newBet.receiverName} ${newBet.bettorAmount} to win ${newBet.receiverAmount}! Goodluck :)'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
-    }
-    else {
+    } else {
       final snackBar = SnackBar(
-                              content: const Text(
-                                  'Both your risk and your opponent\'s risk must be a number.'),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        content: const Text(
+            'Both your risk and your opponent\'s risk must be a number.'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
 
     _friendController.clear();
