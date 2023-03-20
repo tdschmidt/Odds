@@ -75,6 +75,8 @@ class BetsProvider with ChangeNotifier {
     // make sure we don't double count
     var uniqueBets = Set<String>();
     _friendBets = allBets.where((bet) => uniqueBets.add(bet.id)).toList();
+    _friendBets
+        .sort((a, b) => b.timestampCreated.compareTo(a.timestampCreated));
     notifyListeners();
   }
 

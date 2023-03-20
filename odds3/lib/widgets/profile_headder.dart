@@ -91,8 +91,7 @@ class _UserProfileState extends State<UserProfile> {
                           child: ElevatedButton(
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                                  Colors.redAccent,
-                                ),
+                                    Color.fromARGB(255, 184, 74, 43)),
                                 shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),
