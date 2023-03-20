@@ -29,7 +29,7 @@ class BetsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> isFriend(Bet bet) async{
+  Future<bool> isFriend(Bet bet) async {
     QuerySnapshot snapshotF = await FirebaseFirestore.instance
         .collection('users')
         .doc(user?.uid)
@@ -58,20 +58,6 @@ class BetsProvider with ChangeNotifier {
       allBets.addAll(curBets);
     }
 
-    //get user friends
-    List<CurUser> friends = [];
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user?.uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        friends.add(CurUser.fromFirestore(documentSnapshot));
-      } else {
-        print('User as a friend does not exist on the database');
-      }
-    });
-
     QuerySnapshot snapshotF = await FirebaseFirestore.instance
         .collection('users')
         .doc(user?.uid)
@@ -80,14 +66,15 @@ class BetsProvider with ChangeNotifier {
         .get();
 
     List<String> ids = snapshotF.docs.map((doc) => doc.id).toList();
-    print(ids);
     for (Bet bet in allBets.toList()) {
       if (!ids.contains(bet.bettorId) && !ids.contains(bet.receiverId)) {
         allBets.remove(bet);
       }
     }
 
-    _friendBets = allBets.toList();
+    // make sure we don't double count
+    var uniqueBets = Set<String>();
+    _friendBets = allBets.where((bet) => uniqueBets.add(bet.id)).toList();
     notifyListeners();
   }
 

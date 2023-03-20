@@ -5,7 +5,6 @@ import 'package:odds3/widgets/leaderboard.dart';
 //import '../lib/pages/home_page.dart';
 import '../widgets/bet_feed_list.dart';
 import '../widgets/toggle_switch.dart';
-import '../dummy_data.dart';
 import '../widgets/add_friends_button.dart';
 import 'package:provider/provider.dart';
 import 'package:odds3/classes/bets_provider.dart';
