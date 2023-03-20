@@ -42,8 +42,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // final userFriend = Provider.of<UserFriendsProvider>(context);
     final state = Provider.of<BetsProvider>(context);
-    state.fetchFriendBets();
-
     return Column(
       children: [
         AddFriendsButton(onPressed: onAddFriends),

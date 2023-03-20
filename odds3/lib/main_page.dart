@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'classes/bets_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/bet_page.dart';
 import 'pages/add_friends_page.dart';
@@ -18,11 +20,19 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final betState = Provider.of<BetsProvider>(context);
     return Scaffold(
       body: IndexedStack(index: currentIndex, children: screens),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
-          onTap: (index) => setState(() => currentIndex = index),
+          onTap: (index) {
+            setState(() => currentIndex = index);
+            if (index == 0) {
+              betState.fetchFriendBets();
+            } else if (index == 2) {
+              betState.fetchBets();
+            }
+          },
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
