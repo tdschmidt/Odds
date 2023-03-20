@@ -48,7 +48,11 @@ class _BetFeedListState extends State<BetFeedList> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: NetworkImage(bet.bettorProfileUrl),
+                        image: (bet.status != 2
+                            ? NetworkImage(bet.bettorProfileUrl)
+                            : (bet.winner == true
+                                ? NetworkImage(bet.receiverProfileUrl)
+                                : NetworkImage(bet.bettorProfileUrl))),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -60,7 +64,11 @@ class _BetFeedListState extends State<BetFeedList> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: NetworkImage(bet.receiverProfileUrl),
+                        image: (bet.status != 2
+                            ? NetworkImage(bet.receiverProfileUrl)
+                            : (bet.winner == true
+                                ? NetworkImage(bet.bettorProfileUrl)
+                                : NetworkImage(bet.receiverProfileUrl))),
                         fit: BoxFit.cover,
                       ),
                     ),
