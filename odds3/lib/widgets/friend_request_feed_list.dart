@@ -74,7 +74,6 @@ class _FriendRequestList extends State<FriendRequestList> {
                   onTap: () {
                     // Placeholder method for handling clicks on the green checkmark icon
                     state.acceptFriendRequest(friendRequest);
-                    print("Accepted friend request.");
                   },
                   child: Icon(
                     Icons.check_circle,
@@ -86,7 +85,6 @@ class _FriendRequestList extends State<FriendRequestList> {
                   onTap: () {
                     // Placeholder method for handling clicks on the red X icon
                     state.rejectFriendRequest(friendRequest);
-                    print("Declined friend request.");
                   },
                   child: Icon(
                     Icons.cancel,

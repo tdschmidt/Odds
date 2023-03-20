@@ -69,7 +69,6 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                 onPressed: () async {
                   // Lookup user in Firestore
                   var friendName = _friendNameController.text;
-                  print("Friend name: $friendName");
                   // This checks whether the username matches a user in our database
                   var querySnapShot = await FirebaseFirestore.instance
                       .collection("users")
@@ -86,11 +85,9 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                       content: const Text('This user was not found.'),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    print("No user found with name $friendName");
                   } else {
                     // This is the case where a match was found
                     // Here we will have to implement the friend request process
-                    print("User found: ${querySnapShot.docs.first.data()}");
                     var friendRequested = querySnapShot.docs.first.data();
                     var friendInviter = querySnapShotInviter.data();
                     // Checking if the user already made that request before
@@ -102,7 +99,6 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                         .get()
                         .then((friendDocs) {
                       if (friendDocs.docs.isNotEmpty) {
-                        print("Friend request already exists");
                         final snackBar = SnackBar(
                           content: const Text(
                               'You already have an open friend request with this user.'),
@@ -138,7 +134,6 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                             timestampCreated: timestampCreated,
                             status: status);
                         state.makeFriendRequest(curr_friend_request);
-                        print("Added friend");
                         final snackBar = SnackBar(
                           content: const Text('Friend request sent :)'),
                         );
@@ -146,7 +141,6 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                       }
                     });
                   }
-                  print('Friend name: ${_friendNameController.text}');
                 },
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
