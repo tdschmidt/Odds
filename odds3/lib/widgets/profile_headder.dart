@@ -165,12 +165,14 @@ class _UserProfileState extends State<UserProfile> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 5.0),
-                Icon(
-                  Icons.monetization_on,
-                  size: 22.0,
-                  color: Colors.yellow,
-                ),
+                IconButton(
+                  icon: Image.network(
+                    'https://img.icons8.com/external-vectorslab-flat-vectorslab/512/external-Casino-Token-casino-vectorslab-flat-vectorslab.png',
+                    width: 20,
+                    height: 20,
+                  ),
+                  onPressed: null,
+                )
               ],
             ),
           ),
