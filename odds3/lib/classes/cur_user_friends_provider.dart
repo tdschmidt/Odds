@@ -44,6 +44,10 @@ class UserFriendsProvider with ChangeNotifier {
         friends.add(toAdd);
       }
     }
+
+    // sort for leaderboard
+    friends.sort((a, b) => b.tokens.compareTo(a.tokens));
+
     _userFriends = friends;
     notifyListeners();
   }
