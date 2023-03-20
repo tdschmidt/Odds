@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => CurUserProvider()),
           ChangeNotifierProvider(
               create: (context) =>
-                  FriendRequestProvider()..fetchFriendRequest()),
+                  FriendRequestProvider()..fetchFriendRequests()),
           ChangeNotifierProvider(
               create: (context) => UserFriendsProvider()..fetchFriends()),
         ],

@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   void onAddFriends() {
     final stateFriendRequests =
         Provider.of<FriendRequestProvider>(context, listen: false);
-    stateFriendRequests.fetchFriendRequest();
+    stateFriendRequests.fetchFriendRequests();
 
     Navigator.push(
         context,
