@@ -2,9 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:odds3/classes/friend_request_item.dart';
-import 'package:odds3/classes/cur_user_provider.dart';
-import 'package:odds3/classes/user.dart';
-import 'package:provider/provider.dart';
 
 class FriendRequestProvider with ChangeNotifier {
   User? user = FirebaseAuth.instance.currentUser;
@@ -26,7 +23,6 @@ class FriendRequestProvider with ChangeNotifier {
     _friend_requests =
         snapshot.docs.map((doc) => FriendRequest.fromFirestore(doc)).toList();
     notifyListeners();
-    print(_friend_requests);
   }
 
   Future<void> makeFriendRequest(FriendRequest friendRequest) async {
@@ -36,7 +32,9 @@ class FriendRequestProvider with ChangeNotifier {
         .doc(user?.uid)
         .collection('friendInvites')
         .doc(friendRequest.id)
-        .set(friendRequest.toFirestore());
+        .set(friendRequest.toFirestore())
+        .onError((e, _) =>
+            print("Error making friend request for user ${user?.uid}: $e"));
 
     // update receiver
     await FirebaseFirestore.instance
@@ -44,7 +42,9 @@ class FriendRequestProvider with ChangeNotifier {
         .doc(friendRequest.receiverId)
         .collection('friendInvites')
         .doc(friendRequest.id)
-        .set(friendRequest.toFirestore());
+        .set(friendRequest.toFirestore())
+        .onError((e, _) => print(
+            "Error making friend request for user ${friendRequest.receiverId}: $e"));
     notifyListeners();
     fetchFriendRequest();
   }
@@ -57,14 +57,17 @@ class FriendRequestProvider with ChangeNotifier {
         .doc(user?.uid)
         .collection('friendInvites')
         .doc(friendRequest.id)
-        .update(friendRequest.toFirestore());
+        .update(friendRequest.toFirestore())
+        .onError((e, _) => print(
+            "Error accepting friend request ${friendRequest.id} for user ${user?.uid}: $e"));
 
     await FirebaseFirestore.instance
         .collection('users')
         .doc(friendRequest.receiverId)
         .collection('friends')
         .doc(friendRequest.inviterId)
-        .set({'id': friendRequest.inviterId});
+        .set({'id': friendRequest.inviterId}).onError((e, _) => print(
+            "Error adding friend ${friendRequest.inviterId} for user ${friendRequest.receiverId}: $e"));
 
     // update inviter
     await FirebaseFirestore.instance
@@ -72,14 +75,17 @@ class FriendRequestProvider with ChangeNotifier {
         .doc(friendRequest.inviterId)
         .collection('friendInvites')
         .doc(friendRequest.id)
-        .update(friendRequest.toFirestore());
+        .update(friendRequest.toFirestore())
+        .onError((e, _) => print(
+            "Error accepting friend request ${friendRequest.id} for user ${friendRequest.inviterId}: $e"));
 
     await FirebaseFirestore.instance
         .collection('users')
         .doc(friendRequest.inviterId)
         .collection('friends')
         .doc(friendRequest.receiverId)
-        .set({'id': friendRequest.receiverId});
+        .set({'id': friendRequest.receiverId}).onError((e, _) => print(
+            "Error adding friend ${friendRequest.receiverId} for user ${friendRequest.inviterId}: $e"));
 
     notifyListeners();
   }
@@ -92,7 +98,9 @@ class FriendRequestProvider with ChangeNotifier {
         .doc(user?.uid)
         .collection('friendInvites')
         .doc(friendRequest.id)
-        .update(friendRequest.toFirestore());
+        .update(friendRequest.toFirestore())
+        .onError((e, _) => print(
+            "Error rejecting friend request ${friendRequest.id} for user ${user?.uid}: $e"));
 
     // update inviter
     await FirebaseFirestore.instance
@@ -100,7 +108,9 @@ class FriendRequestProvider with ChangeNotifier {
         .doc(friendRequest.inviterId)
         .collection('friendInvites')
         .doc(friendRequest.id)
-        .update(friendRequest.toFirestore());
+        .update(friendRequest.toFirestore())
+        .onError((e, _) => print(
+            "Error rejecting friend request ${friendRequest.id} for user ${friendRequest.inviterId}: $e"));
     notifyListeners();
   }
 }
