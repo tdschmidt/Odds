@@ -152,7 +152,7 @@ class Authentication {
       "dateJoined": dateJoined,
       "betsWon": 0,
       "betsLost": 0,
-      "tokenAmount": 0,
+      "tokens": 0,
       "lastActive": dateJoined,
     }).catchError((error) => print("Failed to add user: $error"));
   }
