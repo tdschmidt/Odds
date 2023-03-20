@@ -52,31 +52,44 @@ class _BetPageState extends State<BetPage> {
     print(betId);
 
 
-    Bet newBet = Bet(
-      id: betId,
-      bettorId: bettor?['userId'],
-      receiverId: receiver['userId'],
-      bettorAmount: int.parse(yourBet),
-      receiverAmount: int.parse(theirBet),
-      bettorProfileUrl: bettor?['photoURL'],
-      receiverProfileUrl: receiver['photoURL'],
-      timestampCreated: currentTimestamp,
-      betText: betText,
-      status: 0,
-      bettorName: bettor?['username'],
-      receiverName: receiver['username'],
-    );
+    var numCheck1 = num.tryParse(yourBet);
+    var numCheck2 = num.tryParse(theirBet);
 
-    bool isReceiverAFriend = await state.isFriend(newBet);
-    if (!isReceiverAFriend) {
-      final snackBar = SnackBar(
-                            content: const Text(
-                                'You cannot make a bet against someone who is not your friend.'),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    if (numCheck1 != null && numCheck2 != null) {
+
+      Bet newBet = Bet(
+        id: betId,
+        bettorId: bettor?['userId'],
+        receiverId: receiver['userId'],
+        bettorAmount: int.parse(yourBet),
+        receiverAmount: int.parse(theirBet),
+        bettorProfileUrl: bettor?['photoURL'],
+        receiverProfileUrl: receiver['photoURL'],
+        timestampCreated: currentTimestamp,
+        betText: betText,
+        status: 0,
+        bettorName: bettor?['username'],
+        receiverName: receiver['username'],
+      );
+
+      bool isReceiverAFriend = await state.isFriend(newBet);
+      if (!isReceiverAFriend) {
+        final snackBar = SnackBar(
+                              content: const Text(
+                                  'You cannot make a bet against someone who is not your friend.'),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+      else{
+        state.makeBet(newBet);
+      }
     }
-    else{
-      state.makeBet(newBet);
+    else {
+      final snackBar = SnackBar(
+                              content: const Text(
+                                  'Both your risk and your opponent\'s risk must be a number.'),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
 
     _friendController.clear();
@@ -117,7 +130,7 @@ class _BetPageState extends State<BetPage> {
               TextFormField(
                 controller: _yourRiskController,
                 decoration: InputDecoration(
-                  labelText: 'Your risk',
+                  labelText: 'Your risk (i.e. 4)',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -127,7 +140,7 @@ class _BetPageState extends State<BetPage> {
               TextFormField(
                 controller: _theirRiskController,
                 decoration: InputDecoration(
-                  labelText: 'Your opponent\'s risk',
+                  labelText: 'Your opponent\'s risk (i.e. 4)',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
