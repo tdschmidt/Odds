@@ -51,14 +51,15 @@ class _BetPageState extends State<BetPage> {
     String betId = sha1BetHash.toString();
     print(betId);
 
+
     Bet newBet = Bet(
       id: betId,
       bettorId: bettor?['userId'],
       receiverId: receiver['userId'],
       bettorAmount: int.parse(yourBet),
       receiverAmount: int.parse(theirBet),
-      bettorProfileUrl: bettor?['photoUrl'],
-      receiverProfileUrl: receiver['photoUrl'],
+      bettorProfileUrl: bettor?['photoURL'],
+      receiverProfileUrl: receiver['photoURL'],
       timestampCreated: currentTimestamp,
       betText: betText,
       status: 0,
@@ -66,7 +67,17 @@ class _BetPageState extends State<BetPage> {
       receiverName: receiver['username'],
     );
 
-    state.makeBet(newBet);
+    bool isReceiverAFriend = await state.isFriend(newBet);
+    if (!isReceiverAFriend) {
+      final snackBar = SnackBar(
+                            content: const Text(
+                                'You cannot make a bet against someone who is not your friend.'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    else{
+      state.makeBet(newBet);
+    }
 
     _friendController.clear();
     _yourRiskController.clear();

@@ -16,7 +16,7 @@ class CurUser {
       required this.betsLost,
       required this.username,
       required this.uid,
-      this.photoURL});
+      required this.photoURL});
 
   factory CurUser.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data() as Map<String, dynamic>;
@@ -29,7 +29,7 @@ class CurUser {
       betsWon: data['betsWon'] ?? 0,
       betsLost: data['betsLost'] ?? 0,
       tokens: data['tokenAmount'] ?? 0,
-      photoURL: data['photoURL'],
+      photoURL: data['photoURL'] ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
     );
   }
 

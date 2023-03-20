@@ -29,6 +29,17 @@ class BetsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> isFriend(Bet bet) async{
+    QuerySnapshot snapshotF = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('friends')
+        .where('id', isEqualTo: bet.receiverId)
+        .get();
+    bool isNotFriend = snapshotF.docs.isEmpty;
+    return !isNotFriend;
+  }
+
   Future<void> fetchFriendBets() async {
     Set<Bet> allBets = {};
     QuerySnapshot querySnapshot =
