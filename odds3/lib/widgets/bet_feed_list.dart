@@ -106,26 +106,26 @@ class _BetFeedListState extends State<BetFeedList> {
                             style: DefaultTextStyle.of(context).style,
                             children: <TextSpan>[
                               TextSpan(
-                                text: bet.winner == 1
-                                    ? ((user?.uid == bet.bettorId)
-                                        ? "You"
-                                        : bet.bettorName)
-                                    : ((user?.uid == bet.receiverId)
-                                        ? "You"
-                                        : bet.receiverName),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(text: ' won a bet against '),
-                              TextSpan(
-                                text: bet.winner == 1
+                                text: bet.winner == true
                                     ? ((user?.uid == bet.receiverId)
                                         ? "You"
                                         : bet.receiverName)
                                     : ((user?.uid == bet.bettorId)
                                         ? "You"
                                         : bet.bettorName),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(text: ' won a bet against '),
+                              TextSpan(
+                                text: bet.winner == true
+                                    ? ((user?.uid == bet.bettorId)
+                                        ? "You"
+                                        : bet.bettorName)
+                                    : ((user?.uid == bet.receiverId)
+                                        ? "You"
+                                        : bet.receiverName),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
