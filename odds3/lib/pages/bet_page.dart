@@ -49,7 +49,6 @@ class _BetPageState extends State<BetPage> {
         utf8.encode(idStringInput); // Convert the string to a list of bytes
     Digest sha1BetHash = sha1.convert(plaintextBytes);
     String betId = sha1BetHash.toString();
-    print(betId);
 
     var numCheck1 = num.tryParse(yourBet);
     var numCheck2 = num.tryParse(theirBet);
