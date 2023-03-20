@@ -192,7 +192,7 @@ class BetsProvider with ChangeNotifier {
       "betsWon": FieldValue.increment(bettorBetsWon),
       "betsLost": FieldValue.increment(bettorBetsLost)
     }).onError((e, _) => print(
-        "Error updating bettor ${bet.bettorId} with bet ${bet.bettorId}: $e"));
+        "Error updating bettor ${bet.bettorId} with bet ${bet.receiverId}: $e"));
 
     await FirebaseFirestore.instance
         .collection('users')
