@@ -87,7 +87,8 @@ class BetsProvider with ChangeNotifier {
         .doc(user?.uid)
         .collection('bets')
         .doc(bet.id)
-        .set(bet.toFirestore());
+        .set(bet.toFirestore())
+        .onError((e, _) => print("Error making bettor bet ${bet.id}: $e"));
 
     // update receiver
     await FirebaseFirestore.instance
@@ -95,9 +96,9 @@ class BetsProvider with ChangeNotifier {
         .doc(bet.receiverId)
         .collection('bets')
         .doc(bet.id)
-        .set(bet.toFirestore());
+        .set(bet.toFirestore())
+        .onError((e, _) => print("Error making receiver bet ${bet.id}: $e"));
     notifyListeners();
-    fetchBets();
   }
 
   Future<void> acceptBet(Bet bet) async {
@@ -108,14 +109,16 @@ class BetsProvider with ChangeNotifier {
         .doc(user?.uid)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error accepting bet ${bet.id}: $e"));
     // update bettor
     await FirebaseFirestore.instance
         .collection('users')
         .doc(bet.bettorId)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error accepting bet ${bet.id}: $e"));
     notifyListeners();
   }
 
@@ -127,7 +130,8 @@ class BetsProvider with ChangeNotifier {
         .doc(user?.uid)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error rejecting bet ${bet.id}: $e"));
 
     // update bettor
     await FirebaseFirestore.instance
@@ -135,7 +139,8 @@ class BetsProvider with ChangeNotifier {
         .doc(bet.bettorId)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error rejecting bet ${bet.id}: $e"));
     notifyListeners();
   }
 
@@ -151,30 +156,19 @@ class BetsProvider with ChangeNotifier {
         .doc(bet.bettorId)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error conceding bet ${bet.id}: $e"));
 
     await FirebaseFirestore.instance
         .collection('users')
         .doc(bet.receiverId)
         .collection('bets')
         .doc(bet.id)
-        .update(bet.toFirestore());
+        .update(bet.toFirestore())
+        .onError((e, _) => print("Error conceding bet ${bet.id}: $e"));
     notifyListeners();
 
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(bet.bettorId)
-        .get();
-
-    CurUser bettor = CurUser.fromFirestore(snapshot);
-
-    DocumentSnapshot snapshot2 = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(bet.receiverId)
-        .get();
-
-    CurUser receiver = CurUser.fromFirestore(snapshot2);
-
+    // change in user values
     int receiverBetsWon = 0;
     int bettorBetsWon = 0;
     int receiverBetsLost = 0;
@@ -195,14 +189,12 @@ class BetsProvider with ChangeNotifier {
       receiverTokens = -bet.receiverAmount;
       bettorTokens = bet.receiverAmount;
     }
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(bet.bettorId)
-        .update({
+    await FirebaseFirestore.instance.collection('users').doc(bet.bettorId).update({
       "tokens": FieldValue.increment(bettorTokens),
       "betsWon": FieldValue.increment(bettorBetsWon),
       "betsLost": FieldValue.increment(bettorBetsLost)
-    });
+    }).onError((e, _) => print(
+        "Error updating bettor ${bet.bettorId} with bet ${bet.bettorId}: $e"));
 
     await FirebaseFirestore.instance
         .collection('users')
@@ -211,6 +203,7 @@ class BetsProvider with ChangeNotifier {
       "tokens": FieldValue.increment(receiverTokens),
       "betsWon": FieldValue.increment(receiverBetsWon),
       "betsLost": FieldValue.increment(receiverBetsLost)
-    });
+    }).onError((e, _) => print(
+            "Error updating bettor ${bet.receiverId} with bet ${bet.bettorId}: $e"));
   }
 }
