@@ -88,7 +88,7 @@ class _MeFeedListState extends State<MeFeedList> {
         text,
         IconButton(
           icon: coinIcon,
-          onPressed: () {},
+          onPressed: null,
         )
       ]);
     } else {
