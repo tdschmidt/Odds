@@ -29,7 +29,7 @@ class _BetFeedListState extends State<BetFeedList> {
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
         var bet = widget.listItems[index];
-        // if (bet.status == 0 || bet.status == 4) {
+        // if (bet.status == 4) {
         //   return SizedBox.shrink(); // returns an empty widget
         // }
         return Card(
@@ -68,7 +68,7 @@ class _BetFeedListState extends State<BetFeedList> {
                 ]),
                 Expanded(
                     child: ListTile(
-                  title: bet.status == 1
+                  title: bet.status == 1 || bet.status == 0
                       ? RichText(
                           text: TextSpan(
                             style: DefaultTextStyle.of(context).style,
@@ -84,8 +84,12 @@ class _BetFeedListState extends State<BetFeedList> {
                               TextSpan(
                                   text: (user?.uid == bet.bettorId ||
                                           user?.uid == bet.receiverId)
-                                      ? " bet "
-                                      : ' bets '),
+                                      ? (bet.status == 1
+                                          ? " bet "
+                                          : " proposed ")
+                                      : (bet.status == 1
+                                          ? " bets "
+                                          : " proposed ")),
                               TextSpan(
                                 text: (user?.uid == bet.receiverId)
                                     ? "You"
