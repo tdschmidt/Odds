@@ -55,7 +55,7 @@ class _AddFriendsPage extends State<AddFriendsPage> {
             TextField(
               controller: _friendNameController,
               decoration: InputDecoration(
-                labelText: 'Enter friend name',
+                labelText: 'Enter friend username',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14.0),
                 ),
@@ -64,7 +64,7 @@ class _AddFriendsPage extends State<AddFriendsPage> {
             ),
             SizedBox(height: 16.0),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 140.0),
+              padding: EdgeInsets.symmetric(horizontal: 100.0),
               child: ElevatedButton(
                 onPressed: () async {
                   // Lookup user in Firestore
@@ -152,6 +152,7 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                   padding: MaterialStateProperty.all<EdgeInsets>(
                     EdgeInsets.symmetric(vertical: 16.0),
                   ),
+                  alignment: Alignment.center,
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14.0),
@@ -163,6 +164,7 @@ class _AddFriendsPage extends State<AddFriendsPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),

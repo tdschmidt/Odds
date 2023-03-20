@@ -43,7 +43,25 @@ class _HomePageState extends State<HomePage> {
     final state = Provider.of<BetsProvider>(context);
     return Column(
       children: [
-        AddFriendsButton(onPressed: onAddFriends),
+        Stack(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.only(top: 50.0, bottom: 12.5),
+                child: Image.asset(
+                  'assets/OddsLogoWhite.jpg',
+                  height: 60,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0.0,
+              right: 0.0,
+              child: AddFriendsButton(onPressed: onAddFriends),
+            ),
+          ],
+        ),
         Container(
           child: MyToggleSwitch(
               onChanged: _updateToggleValue, label: _toggleValue),
