@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../classes/bet_feed_item.dart';
@@ -21,6 +22,7 @@ class _BetFeedListState extends State<BetFeedList> {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
     final state = Provider.of<BetsProvider>(context);
 
     return ListView.builder(
@@ -38,39 +40,32 @@ class _BetFeedListState extends State<BetFeedList> {
             padding: EdgeInsets.all(10.0),
             child: Row(
               children: <Widget>[
-                Row(
-                  children: [
-                    // first the bettor then the receiver
-                    Container(
-                      height: 25.0,
-                      width: 25.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              bet.bettorProfileUrl),
-                          fit: BoxFit.cover,
-                        ),
+                Row(children: [
+                  // first the bettor then the receiver
+                  Container(
+                    height: 25.0,
+                    width: 25.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: NetworkImage(bet.bettorProfileUrl),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox (
-                      width: 5.0
-                    ),
-                    Container(
-                      height: 25.0,
-                      width: 25.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              bet.receiverProfileUrl),
-                          fit: BoxFit.cover,
-                        ),
+                  ),
+                  SizedBox(width: 5.0),
+                  Container(
+                    height: 25.0,
+                    width: 25.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: NetworkImage(bet.receiverProfileUrl),
+                        fit: BoxFit.cover,
                       ),
-                    )
-                    
-                  ]
-                ),
+                    ),
+                  )
+                ]),
                 Expanded(
                     child: ListTile(
                   title: bet.status == 1
@@ -79,14 +74,22 @@ class _BetFeedListState extends State<BetFeedList> {
                             style: DefaultTextStyle.of(context).style,
                             children: <TextSpan>[
                               TextSpan(
-                                text: bet.bettorName,
+                                text: (user?.uid == bet.bettorId)
+                                    ? "You"
+                                    : bet.bettorName,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              TextSpan(text: ' bets '),
                               TextSpan(
-                                text: bet.receiverName,
+                                  text: (user?.uid == bet.bettorId ||
+                                          user?.uid == bet.receiverId)
+                                      ? " bet "
+                                      : ' bets '),
+                              TextSpan(
+                                text: (user?.uid == bet.receiverId)
+                                    ? "You"
+                                    : bet.receiverName,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -100,8 +103,12 @@ class _BetFeedListState extends State<BetFeedList> {
                             children: <TextSpan>[
                               TextSpan(
                                 text: bet.winner == 1
-                                    ? bet.bettorName
-                                    : bet.receiverName,
+                                    ? ((user?.uid == bet.bettorId)
+                                        ? "You"
+                                        : bet.bettorName)
+                                    : ((user?.uid == bet.receiverId)
+                                        ? "You"
+                                        : bet.receiverName),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -109,8 +116,12 @@ class _BetFeedListState extends State<BetFeedList> {
                               TextSpan(text: ' won a bet against '),
                               TextSpan(
                                 text: bet.winner == 1
-                                    ? bet.receiverName
-                                    : bet.bettorName,
+                                    ? ((user?.uid == bet.receiverId)
+                                        ? "You"
+                                        : bet.receiverName)
+                                    : ((user?.uid == bet.bettorId)
+                                        ? "You"
+                                        : bet.bettorName),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
