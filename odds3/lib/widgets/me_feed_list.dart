@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:odds3/classes/bets_provider.dart';
+import 'package:odds3/classes/cur_user_provider.dart';
 import 'package:provider/provider.dart';
 import '../classes/bet_feed_item.dart';
 
@@ -27,7 +28,7 @@ class _MeFeedListState extends State<MeFeedList> {
     }
   }
 
-  Widget getBetColumn(BetsProvider state, Bet bet) {
+  Widget getBetColumn(BetsProvider state, Bet bet, CurUserProvider userState) {
     var coinIcon = Image.network(
       'https://img.icons8.com/external-vectorslab-flat-vectorslab/512/external-Casino-Token-casino-vectorslab-flat-vectorslab.png',
       width: 20,
@@ -62,14 +63,14 @@ class _MeFeedListState extends State<MeFeedList> {
         Text('Concede Bet: '),
         IconButton(
           icon: Icon(Icons.close, color: Colors.red),
-          onPressed: () {
+          onPressed: () async {
             //have to change this to whoever is signed in
-            state.concedeBet(bet);
+            await state.concedeBet(bet);
+            userState.fetchCurUser();
           },
         ),
       ]);
     } else if (bet.status == 2) {
-      Icon icon;
       Text text;
       if (user?.uid == bet.receiverId) {
         text = (bet.winner == true)
@@ -99,6 +100,7 @@ class _MeFeedListState extends State<MeFeedList> {
   @override
   Widget build(BuildContext context) {
     final betsState = Provider.of<BetsProvider>(context);
+    final userState = Provider.of<CurUserProvider>(context);
     filterList(betsState.bets);
 
     return ListView.builder(
@@ -134,7 +136,7 @@ class _MeFeedListState extends State<MeFeedList> {
                       Text("to win"),
                       Text(bet.receiverAmount.toString()),
                       SizedBox(height: 24.0),
-                      getBetColumn(betsState, bet),
+                      getBetColumn(betsState, bet, userState),
                     ],
                   ),
                 ],
