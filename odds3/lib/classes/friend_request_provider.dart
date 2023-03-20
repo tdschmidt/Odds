@@ -13,7 +13,7 @@ class FriendRequestProvider with ChangeNotifier {
     _friend_requests = [];
   }
 
-  Future<void> fetchFriendRequest() async {
+  Future<void> fetchFriendRequests() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(user?.uid)
@@ -46,7 +46,7 @@ class FriendRequestProvider with ChangeNotifier {
         .onError((e, _) => print(
             "Error making friend request for user ${friendRequest.receiverId}: $e"));
     notifyListeners();
-    fetchFriendRequest();
+    fetchFriendRequests();
   }
 
   Future<void> acceptFriendRequest(FriendRequest friendRequest) async {

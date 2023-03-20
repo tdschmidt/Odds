@@ -17,12 +17,12 @@ class FriendRequestList extends StatefulWidget {
 // Can access the necessary variables through the FriendRequest class in friend_request_item.dart
 //NEED TO FILTER BY OPEN FRIEND REQUESTS, AND BY USER
 class _FriendRequestList extends State<FriendRequestList> {
-  void filterList(List<FriendRequest> friend_requests, CurUser? user) {
-    widget.listItems = friend_requests
+  void filterList(List<FriendRequest> friendRequests, String? userUid) {
+    widget.listItems = friendRequests
         .where((item) => item.status == 2)
         .where((element) =>
             element.receiverId ==
-            user?.uid) // || item.status == 1 || item.status == 2)
+            userUid) // || item.status == 1 || item.status == 2)
         .toList();
   }
 
@@ -30,8 +30,7 @@ class _FriendRequestList extends State<FriendRequestList> {
   Widget build(BuildContext context) {
     final state = Provider.of<FriendRequestProvider>(context);
     final stateUser = Provider.of<CurUserProvider>(context);
-    stateUser.fetchCurUser();
-    filterList(state.friend_requests, stateUser.curUser);
+    filterList(state.friend_requests, stateUser.auth.currentUser?.uid);
     return ListView.builder(
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
