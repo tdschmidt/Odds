@@ -30,19 +30,15 @@ class _BetFeedListState extends State<BetFeedList> {
       itemCount: widget.listItems.length,
       itemBuilder: (context, index) {
         var bet = widget.listItems[index];
-        // if (bet.status == 4) {
-        //   return SizedBox.shrink(); // returns an empty widget
-        // }
         return Card(
           color: bet.status == 1
               ? Color.fromARGB(255, 255, 251, 240)
-              : Color.fromARGB(255, 255, 252, 242), //change to an accent color
+              : Color.fromARGB(255, 255, 252, 242),
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Row(
               children: <Widget>[
                 Row(children: [
-                  // first the bettor then the receiver
                   Container(
                     height: 25.0,
                     width: 25.0,
@@ -76,74 +72,83 @@ class _BetFeedListState extends State<BetFeedList> {
                   )
                 ]),
                 Expanded(
-                    child: ListTile(
-                  title: bet.status == 1 || bet.status == 0
-                      ? RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: (user?.uid == bet.bettorId)
-                                    ? "You"
-                                    : bet.bettorName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                    child: Align(
+                        alignment: Alignment(0.0, 0.5),
+                        child: ListTile(
+                          title: bet.status == 1 || bet.status == 0
+                              ? RichText(
+                                  text: TextSpan(
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: (user?.uid == bet.bettorId)
+                                            ? "You"
+                                            : bet.bettorName,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                          text: (user?.uid == bet.bettorId ||
+                                                  user?.uid == bet.receiverId)
+                                              ? (bet.status == 1
+                                                  ? " bet "
+                                                  : " proposed ")
+                                              : (bet.status == 1
+                                                  ? " bets "
+                                                  : " proposed ")),
+                                      TextSpan(
+                                        text: (user?.uid == bet.receiverId)
+                                            ? "You"
+                                            : bet.receiverName,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : RichText(
+                                  text: TextSpan(
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: bet.winner == true
+                                            ? ((user?.uid == bet.receiverId)
+                                                ? "You"
+                                                : bet.receiverName)
+                                            : ((user?.uid == bet.bettorId)
+                                                ? "You"
+                                                : bet.bettorName),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextSpan(text: ' won a bet against '),
+                                      TextSpan(
+                                        text: bet.winner == true
+                                            ? ((user?.uid == bet.bettorId)
+                                                ? "you"
+                                                : bet.bettorName)
+                                            : ((user?.uid == bet.receiverId)
+                                                ? "you"
+                                                : bet.receiverName),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              TextSpan(
-                                  text: (user?.uid == bet.bettorId ||
-                                          user?.uid == bet.receiverId)
-                                      ? (bet.status == 1
-                                          ? " bet "
-                                          : " proposed ")
-                                      : (bet.status == 1
-                                          ? " bets "
-                                          : " proposed ")),
-                              TextSpan(
-                                text: (user?.uid == bet.receiverId)
-                                    ? "You"
-                                    : bet.receiverName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                          subtitle: Text(
+                            bet.betText,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black87,
+                            ),
                           ),
-                        )
-                      : RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: bet.winner == true
-                                    ? ((user?.uid == bet.receiverId)
-                                        ? "You"
-                                        : bet.receiverName)
-                                    : ((user?.uid == bet.bettorId)
-                                        ? "You"
-                                        : bet.bettorName),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(text: ' won a bet against '),
-                              TextSpan(
-                                text: bet.winner == true
-                                    ? ((user?.uid == bet.bettorId)
-                                        ? "You"
-                                        : bet.bettorName)
-                                    : ((user?.uid == bet.receiverId)
-                                        ? "You"
-                                        : bet.receiverName),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                  subtitle: Text(bet.betText),
-                )),
+                        ))),
                 Column(
                   children: <Widget>[
                     Text(

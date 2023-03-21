@@ -71,7 +71,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              userState.curUser?.username ?? '',
+                              '@${userState.curUser?.username ?? ''}',
                               style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.grey,

@@ -120,7 +120,7 @@ class _BetPageState extends State<BetPage> {
               TextFormField(
                 controller: _friendController,
                 decoration: InputDecoration(
-                  labelText: 'Search for a friend to bet against',
+                  labelText: 'Opponent\'s username',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -169,7 +169,8 @@ class _BetPageState extends State<BetPage> {
                   child: Text(
                     'Place Bet',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                   style: ButtonStyle(
@@ -178,7 +179,7 @@ class _BetPageState extends State<BetPage> {
                     ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
+                        borderRadius: BorderRadius.circular(14.0),
                       ),
                     ),
                   ),
