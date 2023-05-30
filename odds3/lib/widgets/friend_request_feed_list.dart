@@ -36,7 +36,7 @@ class _FriendRequestList extends State<FriendRequestList> {
       itemBuilder: (context, index) {
         var friendRequest = widget.listItems[index];
         return Card(
-          color: Color.fromARGB(255, 255, 252, 242),
+          color: Color.fromARGB(255, 236, 241, 243),
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Row(

@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,21 +43,41 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyC3p4RMMWS88k_XpefoOqY7bWYna358Rzg',
+    appId: '1:645324287222:web:cf6a2c9dbea970712590d7',
+    messagingSenderId: '645324287222',
+    projectId: 'loops-d84ba',
+    authDomain: 'loops-d84ba.firebaseapp.com',
+    storageBucket: 'loops-d84ba.appspot.com',
+    measurementId: 'G-271VXH44V2',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAtDPFE-u48GQeXEzmhxTdxJjq_7MqH8qU',
-    appId: '1:75354380150:android:8fedb64789e685ae914c57',
-    messagingSenderId: '75354380150',
-    projectId: 'odds3-af9af',
-    storageBucket: 'odds3-af9af.appspot.com',
+    apiKey: 'AIzaSyBhppNBXALj4TxV3nlXdH6QoBVeAv6vGGU',
+    appId: '1:645324287222:android:db5f899064b4489b2590d7',
+    messagingSenderId: '645324287222',
+    projectId: 'loops-d84ba',
+    storageBucket: 'loops-d84ba.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBpXe5IJmr7EYs7RHiPdj_wAqG8gyUoThU',
-    appId: '1:75354380150:ios:a7dfd629e13a8aef914c57',
-    messagingSenderId: '75354380150',
-    projectId: 'odds3-af9af',
-    storageBucket: 'odds3-af9af.appspot.com',
-    iosClientId: '75354380150-ebqu0pcf063g7mvkahj1cn2b453g4lm7.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDRQyz09Msdxa0PADNDcb0W5zqJunTq5jo',
+    appId: '1:645324287222:ios:1510c8e4fd69233b2590d7',
+    messagingSenderId: '645324287222',
+    projectId: 'loops-d84ba',
+    storageBucket: 'loops-d84ba.appspot.com',
+    iosClientId: '645324287222-1d3007du81kdaedms2h9kt5lvkt5krl9.apps.googleusercontent.com',
+    iosBundleId: 'com.example.odds',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDRQyz09Msdxa0PADNDcb0W5zqJunTq5jo',
+    appId: '1:645324287222:ios:8aa344d8b6e050e82590d7',
+    messagingSenderId: '645324287222',
+    projectId: 'loops-d84ba',
+    storageBucket: 'loops-d84ba.appspot.com',
+    iosClientId: '645324287222-91aqrr4ts6ar5hio440e5rlmhb4ndddn.apps.googleusercontent.com',
     iosBundleId: 'com.example.odds3',
   );
 }

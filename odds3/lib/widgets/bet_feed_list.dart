@@ -32,8 +32,8 @@ class _BetFeedListState extends State<BetFeedList> {
         var bet = widget.listItems[index];
         return Card(
           color: bet.status == 1
-              ? Color.fromARGB(255, 255, 251, 240)
-              : Color.fromARGB(255, 255, 252, 242),
+              ? Color.fromARGB(255, 219, 235, 241)
+              : Color.fromARGB(255, 238, 239, 240),
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Row(

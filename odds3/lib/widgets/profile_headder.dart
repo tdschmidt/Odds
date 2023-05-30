@@ -90,13 +90,14 @@ class _UserProfileState extends State<UserProfile> {
                           height: 30, // desired height
                           child: ElevatedButton(
                             style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    Color.fromARGB(255, 184, 74, 43)),
+
+                                ///backgroundColor: MaterialStateProperty.all(
+                                //Color.fromARGB(255, 184, 74, 43)),
                                 shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                )),
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            )),
                             onPressed: () async {
                               setState(() {
                                 _isSigningOut = true;

@@ -1,40 +1,40 @@
 {
   "project_info": {
-    "project_number": "75354380150",
-    "project_id": "odds3-af9af",
-    "storage_bucket": "odds3-af9af.appspot.com"
+    "project_number": "645324287222",
+    "project_id": "loops-d84ba",
+    "storage_bucket": "loops-d84ba.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:75354380150:android:8fedb64789e685ae914c57",
+        "mobilesdk_app_id": "1:645324287222:android:db5f899064b4489b2590d7",
         "android_client_info": {
           "package_name": "com.example.odds3"
         }
       },
       "oauth_client": [
         {
-          "client_id": "75354380150-fn77m7q2rp9leu7usg89aq3422iuvcai.apps.googleusercontent.com",
+          "client_id": "645324287222-9vcp62lhcoeegsjtf6a6al7r6smg11nn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAtDPFE-u48GQeXEzmhxTdxJjq_7MqH8qU"
+          "current_key": "AIzaSyBhppNBXALj4TxV3nlXdH6QoBVeAv6vGGU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "75354380150-fn77m7q2rp9leu7usg89aq3422iuvcai.apps.googleusercontent.com",
+              "client_id": "645324287222-9vcp62lhcoeegsjtf6a6al7r6smg11nn.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "75354380150-ebqu0pcf063g7mvkahj1cn2b453g4lm7.apps.googleusercontent.com",
+              "client_id": "645324287222-1d3007du81kdaedms2h9kt5lvkt5krl9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.odds3"
+                "bundle_id": "com.example.odds"
               }
             }
           ]

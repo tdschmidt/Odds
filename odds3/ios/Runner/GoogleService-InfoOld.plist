@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>645324287222-1d3007du81kdaedms2h9kt5lvkt5krl9.apps.googleusercontent.com</string>
+	<string>75354380150-ebqu0pcf063g7mvkahj1cn2b453g4lm7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.645324287222-1d3007du81kdaedms2h9kt5lvkt5krl9</string>
+	<string>com.googleusercontent.apps.75354380150-ebqu0pcf063g7mvkahj1cn2b453g4lm7</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDRQyz09Msdxa0PADNDcb0W5zqJunTq5jo</string>
+	<string>AIzaSyBpXe5IJmr7EYs7RHiPdj_wAqG8gyUoThU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>645324287222</string>
+	<string>75354380150</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.odds</string>
+	<string>com.example.odds3</string>
 	<key>PROJECT_ID</key>
-	<string>loops-d84ba</string>
+	<string>odds3-af9af</string>
 	<key>STORAGE_BUCKET</key>
-	<string>loops-d84ba.appspot.com</string>
+	<string>odds3-af9af.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:645324287222:ios:1510c8e4fd69233b2590d7</string>
+	<string>1:75354380150:ios:a7dfd629e13a8aef914c57</string>
 </dict>
 </plist>

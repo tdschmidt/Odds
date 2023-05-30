@@ -13,7 +13,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 251, 230, 184),
+      backgroundColor: Color.fromARGB(255, 56, 130, 199),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -47,9 +47,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            'Bet on fun, win with friends :)',
+                            'Bet on songs, win with friends :)',
                             style: TextStyle(
-                              color: Color.fromARGB(255, 156, 53, 48),
+                              color: Color.fromARGB(255, 249, 249, 249),
                               fontSize: 22,
                               fontWeight: FontWeight.w600,
                             ),

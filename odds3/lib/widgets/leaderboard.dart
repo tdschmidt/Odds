@@ -22,7 +22,7 @@ class _LeaderboardState extends State<Leaderboard> {
       itemBuilder: (context, index) {
         return Card(
           elevation: 1,
-          color: Color.fromARGB(255, 255, 251, 240),
+          color: Color.fromARGB(255, 236, 241, 243),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

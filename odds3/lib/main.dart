@@ -11,9 +11,14 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  if (Firebase.apps.length == 0) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } else {
+    Firebase.app(); // if already initialized, use that one
+  }
+
   runApp(const MyApp());
 }
 
@@ -43,9 +48,9 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.light,
               colorScheme: ColorScheme.fromSeed(
                   //colors should come from this in future but for now I have hard coded colors
-                  seedColor: Color.fromARGB(255, 251, 230, 184),
-                  primary: Color.fromARGB(255, 184, 74, 43),
-                  secondary: Color.fromARGB(255, 255, 251, 240))),
+                  seedColor: Color.fromARGB(255, 22, 26, 142),
+                  primary: Color.fromARGB(255, 76, 154, 222),
+                  secondary: Color.fromARGB(255, 232, 238, 240))),
           home: CurUserProvider().isAuthenticated ? MainPage() : SignInScreen(),
         ));
   }

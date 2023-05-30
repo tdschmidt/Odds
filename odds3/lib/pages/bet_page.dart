@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class BetPage extends StatefulWidget {
   const BetPage({super.key});
@@ -19,6 +20,10 @@ class _BetPageState extends State<BetPage> {
   TextEditingController _yourRiskController = TextEditingController();
   TextEditingController _theirRiskController = TextEditingController();
   TextEditingController _betTextController = TextEditingController();
+  TextEditingController _songTitleController = TextEditingController();
+  TextEditingController _streamNumberController = TextEditingController();
+  TextEditingController _dateinput = TextEditingController();
+
   User? user = FirebaseAuth.instance.currentUser;
 
   void click(BetsProvider state) async {
@@ -26,6 +31,9 @@ class _BetPageState extends State<BetPage> {
     String yourBet = _yourRiskController.text;
     String theirBet = _theirRiskController.text;
     String betText = _betTextController.text;
+    String songTitle = _songTitleController.text;
+    String date = _dateinput.text;
+    String streamNumber = _streamNumberController.text;
     var querySnapShotUser = await FirebaseFirestore.instance
         .collection("users")
         .doc(user?.uid)
@@ -63,10 +71,12 @@ class _BetPageState extends State<BetPage> {
         bettorProfileUrl: bettor?['photoURL'],
         receiverProfileUrl: receiver['photoURL'],
         timestampCreated: currentTimestamp,
-        betText: betText,
+        betText:
+            songTitle + ' will reach ' + streamNumber + ' streams by ' + date,
         status: 0,
         bettorName: bettor?['username'],
         receiverName: receiver['username'],
+        songTitle: songTitle,
       );
 
       bool isReceiverAFriend = await state.isFriend(newBet);
@@ -96,6 +106,9 @@ class _BetPageState extends State<BetPage> {
     _yourRiskController.clear();
     _theirRiskController.clear();
     _betTextController.clear();
+    _songTitleController.clear();
+    _streamNumberController.clear();
+    _dateinput.clear();
   }
 
   @override
@@ -146,14 +159,71 @@ class _BetPageState extends State<BetPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 24.0),
+              SizedBox(height: 16.0),
               Container(
-                height: 120.0,
+                height: 70.0,
                 child: TextFormField(
-                  controller: _betTextController,
+                  controller: _songTitleController,
                   maxLines: 4,
                   decoration: InputDecoration(
-                    labelText: 'What is your wager?',
+                    labelText: 'What song would you like to wager on?',
+                    alignLabelWithHint: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                height: 70.0,
+                child: TextFormField(
+                  controller: _streamNumberController, // change this
+                  maxLines: 4,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'How many streams will it get?',
+                    alignLabelWithHint: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                height: 70.0,
+                child: TextFormField(
+                  controller: _dateinput,
+                  keyboardType:
+                      TextInputType.datetime, //is this right or necessary
+                  maxLines: 4,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(
+                            2000), //DateTime.now() - not to allow to choose before today.
+                        lastDate: DateTime(2101));
+
+                    if (pickedDate != null) {
+                      print(
+                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      //print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                      //you can implement different kind of Date Format here according to your requirement
+
+                      setState(() {
+                        _dateinput.text =
+                            formattedDate; //set output date to TextField value.
+                      });
+                    } else {
+                      print("Date is not selected");
+                    }
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'By what date?',
                     alignLabelWithHint: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),

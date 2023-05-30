@@ -18,6 +18,8 @@ class Bet {
   String bettorName;
   String receiverName;
 
+  String songTitle;
+
   Bet(
       {required this.id,
       required this.bettorId,
@@ -32,7 +34,8 @@ class Bet {
       this.userLiked = false,
       this.winner,
       required this.bettorName,
-      required this.receiverName});
+      required this.receiverName,
+      required this.songTitle});
 
   void acceptBet() {
     status = 1;
@@ -57,15 +60,18 @@ class Bet {
         receiverId: data['receiverId'] ?? '',
         bettorAmount: data['bettorAmount'] ?? 0,
         receiverAmount: data['receiverAmount'] ?? 0,
-        bettorProfileUrl: data['bettorProfileUrl'] ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
-        receiverProfileUrl: data['receiverProfileUrl'] ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+        bettorProfileUrl: data['bettorProfileUrl'] ??
+            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+        receiverProfileUrl: data['receiverProfileUrl'] ??
+            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
         betText: data['betText'] ?? '',
         timestampCreated: data['timestampCreated'] ?? 8640000000000,
         userLiked: data['userLiked'] ?? false,
         status: data['status'] ?? 0,
         winner: data['winner'],
         bettorName: data['bettorName'] ?? '',
-        receiverName: data['receiverName'] ?? '');
+        receiverName: data['receiverName'] ?? '',
+        songTitle: "Test Song");
   }
 
   Map<String, dynamic> toFirestore() {
@@ -83,7 +89,8 @@ class Bet {
       'status': status,
       'winner': winner,
       'bettorName': bettorName,
-      'receiverName': receiverName
+      'receiverName': receiverName,
+      'songTitle': 'test song',
     };
   }
 }
